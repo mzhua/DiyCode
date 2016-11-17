@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import im.hua.diycode.ui.topic.NewsFragment;
 import im.hua.diycode.ui.topic.SitesFragment;
-import im.hua.diycode.ui.topic.TopicFragment;
+import im.hua.diycode.ui.topic.TopicsFragment;
 
 /**
  * Created by hua on 2016/11/17.
@@ -28,7 +28,7 @@ public class HomeVPAdapter extends FragmentStatePagerAdapter {
                 fragment = SitesFragment.getInstance();
                 break;
             default:
-                fragment = TopicFragment.getInstance();
+                fragment = TopicsFragment.getInstance();
 
         }
         return fragment;
