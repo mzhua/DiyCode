@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'android-apt'
+apply plugin: 'realm-android'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
+    defaultConfig {
+        applicationId "im.hua.diycode"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(":framework")
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    compile 'com.android.support:support-v4:24.2.1'
+
+    compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofit"
+    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofit"
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.squareup:otto:1.3.8'
+
+    compile "io.reactivex:rxandroid:$rootProject.ext.reactivex"
+    compile "io.reactivex:rxjava:$rootProject.ext.reactivex"
+
+    compile "com.github.bumptech.glide:glide:$rootProject.ext.glide"
+
+    compile "com.jakewharton:butterknife:$rootProject.ext.butterknife"
+    apt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknife"
+
+    compile "com.google.dagger:dagger:$rootProject.ext.dagger"
+    apt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
+    provided 'javax.annotation:jsr250-api:1.0'//Java标注
+}
