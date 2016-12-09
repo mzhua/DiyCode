@@ -1,18 +1,19 @@
 package im.hua.diycode.ui.home;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
-import im.hua.diycode.ui.topic.NewsFragment;
-import im.hua.diycode.ui.topic.SitesFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v13.app.FragmentPagerAdapter;
+
+import im.hua.diycode.ui.news.NewsFragment;
+import im.hua.diycode.ui.sites.SitesFragment;
 import im.hua.diycode.ui.topic.TopicsFragment;
 
 /**
  * Created by hua on 2016/11/17.
  */
 
-public class HomeVPAdapter extends FragmentStatePagerAdapter {
+public class HomeVPAdapter extends FragmentPagerAdapter {
     public HomeVPAdapter(FragmentManager fm) {
         super(fm);
     }

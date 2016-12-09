@@ -4,7 +4,7 @@ package im.hua.diycode.network.entity;
  * Created by hua on 2016/11/17.
  */
 
-public class AbilitiesEntity {
+public class AbilitiesEntity extends BaseEntity{
     /**
      * update : false
      * destroy : false

@@ -53,6 +53,7 @@ public class ApplicationModule {
 
         return new Retrofit.Builder().baseUrl("http://www.diycode.cc/")
                 .addConverterFactory(GsonConverterFactory.create())
+//                .addConverterFactory(StringConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//必须加上
                 .client(builder.build())
                 .build();

@@ -1,8 +1,8 @@
-package im.hua.diycode.ui.topic;
+package im.hua.diycode.ui.sites;
 
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +12,13 @@ import im.hua.diycode.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsFragment extends Fragment {
+public class SitesFragment extends Fragment {
 
-    public NewsFragment() {
+    public SitesFragment() {
     }
 
-    public static NewsFragment getInstance() {
-        NewsFragment fragment = new NewsFragment();
+    public static SitesFragment getInstance() {
+        SitesFragment fragment = new SitesFragment();
         return fragment;
     }
 

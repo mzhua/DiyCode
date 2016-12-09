@@ -8,4 +8,12 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="text_tab">20sp</dimen>
 
+    <dimen name="text_huge">36sp</dimen>
+    <dimen name="text_large">20sp</dimen>
+    <dimen name="text_middle">16sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="iv_list_user_header">36dp</dimen>
+    <dimen name="element_margin_left">8dp</dimen>
+    <dimen name="element_margin_top">8dp</dimen>
+
 </resources>

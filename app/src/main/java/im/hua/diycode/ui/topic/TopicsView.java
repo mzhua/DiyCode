@@ -1,5 +1,8 @@
 package im.hua.diycode.ui.topic;
 
+import java.util.List;
+
+import im.hua.diycode.network.entity.TopicEntity;
 import im.hua.mvp.framework.IMVPView;
 
 /**
@@ -7,5 +10,5 @@ import im.hua.mvp.framework.IMVPView;
  */
 
 public interface TopicsView extends IMVPView {
-    void getTopics();
+    void showTopics(List<TopicEntity> topics);
 }

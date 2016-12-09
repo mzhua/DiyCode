@@ -4,7 +4,7 @@ package im.hua.diycode.network.entity;
  * Created by hua on 2016/11/17.
  */
 
-public class NewsEntity {
+public class NewsEntity extends BaseEntity{
 
     /**
      * id : 1539

@@ -9,6 +9,7 @@ import dagger.Component;
 import im.hua.diycode.di.module.ApiModule;
 import im.hua.diycode.di.module.ApplicationModule;
 import im.hua.diycode.di.module.RepositoryModule;
+import im.hua.diycode.ui.topic.ITopicsRepository;
 import im.hua.mvp.framework.BaseActivity;
 import im.hua.mvp.framework.di.FApplicationComponent;
 import io.realm.Realm;
@@ -30,5 +31,5 @@ public interface ApplicationComponent extends FApplicationComponent {
 
     Realm getRealm();
 
-//    IUserRepository getLoginRepository();
+    ITopicsRepository getTopicsRepository();
 }

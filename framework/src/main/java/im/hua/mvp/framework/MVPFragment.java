@@ -16,6 +16,8 @@ public abstract class MVPFragment<V extends IMVPView, P extends IMVPPresenter<V>
         P presenter = getPresenter();
         if (null != presenter) {
             presenter.attachView((V) this);
+        } else {
+            throw new IllegalArgumentException("the presenter can not be null");
         }
     }
 

@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity
 
         mNavView.setNavigationItemSelectedListener(this);
 
-        mHomeVPAdapter = new HomeVPAdapter(getSupportFragmentManager());
+        mHomeVPAdapter = new HomeVPAdapter(getFragmentManager());
         mHomeViewPager.setAdapter(mHomeVPAdapter);
 
         mHomeTabLayout.setupWithViewPager(mHomeViewPager);

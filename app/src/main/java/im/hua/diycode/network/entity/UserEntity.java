@@ -4,7 +4,7 @@ package im.hua.diycode.network.entity;
  * Created by hua on 2016/11/17.
  */
 
-public class UserEntity {
+public class UserEntity extends BaseEntity{
     /**
      * id : 30
      * login : d_clock
