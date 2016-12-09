@@ -15,6 +15,9 @@ public interface TopicAPI {
     @GET("api/v3/topics.json")
     Observable<List<TopicEntity>> getTopics();
 
+    @GET("api/v3/topics.json")
+    Observable<String> getTopicsNew();
+
     @GET("api/v3/topics/{id}")
     Observable<TopicEntity> getTopicsDetail(@Path("id") String id);
 }

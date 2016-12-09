@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import im.hua.diycode.network.util.stringconverter.StringConverterFactory;
 import im.hua.mvp.framework.BuildConfig;
 import im.hua.mvp.framework.FApplication;
 import io.realm.Realm;
@@ -16,7 +17,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by hua on 16/10/12.
@@ -52,8 +52,8 @@ public class ApplicationModule {
         }
 
         return new Retrofit.Builder().baseUrl("http://www.diycode.cc/")
-                .addConverterFactory(GsonConverterFactory.create())
-//                .addConverterFactory(StringConverterFactory.create())
+//                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(StringConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//必须加上
                 .client(builder.build())
                 .build();

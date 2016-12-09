@@ -53,7 +53,7 @@ public class TopicsPresenter extends MVPPresenter<TopicsView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("TopicsPresenter", e.getMessage());
+                        Log.d("TopicsPresenter", "error=="+e.getMessage());
                     }
 
                     @Override

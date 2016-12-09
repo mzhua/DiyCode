@@ -35,7 +35,7 @@ public class StringConverterFactory extends Converter.Factory {
             @Override
             public String convert(ResponseBody value) throws IOException {
                 try {
-                    return value.toString();
+                    return value.string();
                 } finally {
                     value.close();
                 }

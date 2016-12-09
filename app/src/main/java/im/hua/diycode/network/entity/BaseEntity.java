@@ -11,7 +11,6 @@ public class BaseEntity {
      */
 
     private String error;
-
     public String getError() {
         return error;
     }
