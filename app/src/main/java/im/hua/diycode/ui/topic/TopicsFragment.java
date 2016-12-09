@@ -39,8 +39,8 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getPresenter().getTopicsDetail("485");
-        getPresenter().getTopics();
+        getPresenter().getTopicsDetail("485");
+//        getPresenter().getTopics();
     }
 
     @Override

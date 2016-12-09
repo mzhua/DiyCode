@@ -1,5 +1,7 @@
 package im.hua.diycode.network.util;
 
+import android.support.annotation.Nullable;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -11,13 +13,18 @@ import rx.schedulers.Schedulers;
  */
 
 public class ResponseCompose {
-    public static <T, R> Observable.Transformer<T, R> handleResponse(final Converter<T, R> converter) {
-        return new Observable.Transformer<T, R>() {
+
+    public interface Converter<R> {
+        R convert(String value);
+    }
+
+    public static <R> Observable.Transformer<String, R> handleResponse(@Nullable final Converter<R> converter) {
+        return new Observable.Transformer<String, R>() {
             @Override
-            public Observable<R> call(Observable<T> tObservable) {
-                return tObservable.flatMap(new Func1<T, Observable<R>>() {
+            public Observable<R> call(Observable<String> tObservable) {
+                return tObservable.flatMap(new Func1<String, Observable<R>>() {
                     @Override
-                    public Observable<R> call(T t) {
+                    public Observable<R> call(String t) {
                         return createData(t, converter);
                     }
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
@@ -25,7 +32,7 @@ public class ResponseCompose {
         };
     }
 
-    private static <T, R> Observable<R> createData(final T data, final Converter<T, R> converter) {
+    private static <R> Observable<R> createData(final String data, final Converter<R> converter) {
         return Observable.create(new Observable.OnSubscribe<R>() {
             @Override
             public void call(Subscriber<? super R> subscriber) {
@@ -37,9 +44,5 @@ public class ResponseCompose {
                 }
             }
         });
-    }
-
-    public interface Converter<T, R> {
-        R convert(T value);
     }
 }
