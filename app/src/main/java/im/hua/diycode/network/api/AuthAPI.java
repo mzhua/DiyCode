@@ -13,7 +13,7 @@ public interface AuthAPI {
      * 获取授权token
      * @param client_id
      * @param client_secret
-     * @param grant_type
+     * @param grant_type   password
      * @param username
      * @param password
      * @return

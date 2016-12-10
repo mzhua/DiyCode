@@ -1,10 +1,12 @@
 package im.hua.diycode.network.entity;
 
+import android.text.TextUtils;
+
 /**
  * Created by hua on 2016/11/17.
  */
 
-public class UserEntity extends BaseEntity{
+public class UserEntity extends BaseEntity {
     /**
      * id : 30
      * login : d_clock
@@ -34,7 +36,7 @@ public class UserEntity extends BaseEntity{
     }
 
     public String getName() {
-        return name;
+        return TextUtils.isEmpty(name) ? "null" : name;
     }
 
     public void setName(String name) {

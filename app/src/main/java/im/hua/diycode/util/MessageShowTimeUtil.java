@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by hua on 2016/12/10.
@@ -19,8 +20,7 @@ public class MessageShowTimeUtil {
     public static String getFormatTime(Date date) {
         if (isTheSameDay(date)) {
             if (isTheSameHour(date)) {
-
-                return hmFormat.format(date);
+                return getIntervalTime(date,Calendar.getInstance().getTime(),TimeUnit.MINUTES) + "分钟前";
             } else {
                 return hmFormat.format(date);
             }
@@ -43,8 +43,10 @@ public class MessageShowTimeUtil {
         return old.equals(current);
     }
 
-    private static long getIntervalTime(Date date0,Date data1){
-
+    private static long getIntervalTime(Date date0, Date date1, TimeUnit timeUnit) {
+        if (timeUnit == TimeUnit.MINUTES) {
+            return Math.abs(Integer.parseInt(mFormat.format(date0)) - Integer.parseInt(mFormat.format(date1)));
+        }
         return 0;
     }
 }

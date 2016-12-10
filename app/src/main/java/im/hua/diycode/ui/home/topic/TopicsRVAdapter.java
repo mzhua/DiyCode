@@ -54,6 +54,18 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        holder.mTopicPraise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        holder.mTopicFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private boolean isWithinOneHour(long timeInMills) {
@@ -88,7 +100,10 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
         TextView mTopicTitle;
         @BindView(R.id.topic_pic)
         ImageView mTopicPic;
-
+        @BindView(R.id.topic_praise)
+        ImageView mTopicPraise;
+        @BindView(R.id.topic_fav)
+        ImageView mTopicFav;
         public ItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
