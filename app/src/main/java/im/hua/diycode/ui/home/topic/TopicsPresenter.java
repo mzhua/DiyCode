@@ -2,6 +2,7 @@ package im.hua.diycode.ui.home.topic;
 
 import android.util.Log;
 
+import java.net.UnknownHostException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -43,22 +44,36 @@ public class TopicsPresenter extends MVPPresenter<TopicsView> {
                 });
     }
 
-    public void getTopics() {
-        this.mTopicsRepository.getTopics()
+    public void getTopics(final int offset) {
+        getView().showLoadingView("");
+        this.mTopicsRepository.getTopics(null, null, offset)
                 .subscribe(new Subscriber<List<TopicEntity>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("TopicsPresenter", "onCompleted");
+                        getView().hideLoadingView("");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("TopicsPresenter", "error=="+e.getMessage());
+                        getView().hideLoadingView("");
+                        if (e instanceof UnknownHostException) {
+                            getView().showErrorMessage("请检查你的网络后重试！");
+                        } else {
+                            getView().showErrorMessage(e.getMessage());
+                        }
                     }
 
                     @Override
                     public void onNext(List<TopicEntity> topicEntities) {
-                        getView().showTopics(topicEntities);
+                        if (null == topicEntities || topicEntities.size() == 0) {
+                            getView().noMoreData();
+                        } else {
+                            if (offset > 0) {
+                                getView().appendTopics(topicEntities);
+                            } else {
+                                getView().showTopics(topicEntities);
+                            }
+                        }
                     }
                 });
     }

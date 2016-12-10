@@ -1,6 +1,7 @@
 package im.hua.diycode.ui.home.topic;
 
 import android.support.v7.util.DiffUtil;
+import android.text.TextUtils;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class DiffCallBack extends DiffUtil.Callback {
         return oldData.getTitle().equals(newData.getTitle()) &&
                 oldData.getNode_name().equals(newData.getNode_name()) &&
                 oldData.getUpdated_at().equals(newData.getUpdated_at()) &&
-                oldData.getUser().getName().equals(newData.getUser().getName()) &&
+                (!TextUtils.isEmpty(oldData.getUser().getName()) && oldData.getUser().getName().equals(newData.getUser().getName())) &&
                 oldData.getUser().getAvatar_url().equals(newData.getUser().getAvatar_url());
     }
 }

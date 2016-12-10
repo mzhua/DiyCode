@@ -87,6 +87,16 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
         mTopics = topics;
     }
 
+    public void appendTopics(List<TopicEntity> topics) {
+        if (null == topics) {
+            return;
+        }
+        topics.addAll(0,this.mTopics);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallBack(this.mTopics, topics), true);
+        diffResult.dispatchUpdatesTo(this);
+        mTopics = topics;
+    }
+
     class ItemViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.topic_user_header)
         ImageView mTopicUserHeader;

@@ -1,5 +1,6 @@
 package im.hua.diycode.network.api;
 
+import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -20,8 +21,8 @@ public interface TopicAPI {
      * @return
      */
     @GET("api/v3/topics.json")
-    Observable<String> getTopics(@Query("type") String type,@Query("node_id") Integer node_id, @Query("offset") Integer offset, @Query("limit") Integer limit);
+    Observable<Response<String>> getTopics(@Query("type") String type, @Query("node_id") Integer node_id, @Query("offset") Integer offset, @Query("limit") Integer limit);
 
     @GET("api/v3/topics/{id}")
-    Observable<String> getTopicsDetail(@Path("id") String id);
+    Observable<Response<String>> getTopicsDetail(@Path("id") String id);
 }

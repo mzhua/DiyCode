@@ -14,7 +14,7 @@ public interface ITopicsRepository {
      * 获取首页topics
      * @return
      */
-    Observable<List<TopicEntity>> getTopics();
+    Observable<List<TopicEntity>> getTopics(String type,Integer nodeId,int offset);
 
     /**
      * 获取topic的详细信息

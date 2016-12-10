@@ -24,8 +24,8 @@ public class TopicsRepository implements ITopicsRepository {
     }
 
     @Override
-    public Observable<List<TopicEntity>> getTopics() {
-        return mTopicAPI.getTopics("last_actived",null,0,150)
+    public Observable<List<TopicEntity>> getTopics(String type,Integer nodeId,int offset) {
+        return mTopicAPI.getTopics(type,nodeId, offset,20)
                 .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<List<TopicEntity>>() {
                     @Override
                     public List<TopicEntity> convert(String value) {

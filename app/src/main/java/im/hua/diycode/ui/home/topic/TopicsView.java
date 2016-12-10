@@ -11,4 +11,8 @@ import im.hua.mvp.framework.IMVPView;
 
 public interface TopicsView extends IMVPView {
     void showTopics(List<TopicEntity> topics);
+
+    void appendTopics(List<TopicEntity> topics);
+
+    void noMoreData();
 }
