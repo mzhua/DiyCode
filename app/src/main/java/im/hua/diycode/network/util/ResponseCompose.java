@@ -1,6 +1,6 @@
 package im.hua.diycode.network.util;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -18,7 +18,7 @@ public class ResponseCompose {
         R convert(String value);
     }
 
-    public static <R> Observable.Transformer<String, R> handleResponse(@Nullable final Converter<R> converter) {
+    public static <R> Observable.Transformer<String, R> handleResponse(@NonNull final Converter<R> converter) {
         return new Observable.Transformer<String, R>() {
             @Override
             public Observable<R> call(Observable<String> tObservable) {
@@ -32,13 +32,17 @@ public class ResponseCompose {
         };
     }
 
-    private static <R> Observable<R> createData(final String data, final Converter<R> converter) {
+    private static <R> Observable<R> createData(final String data,final Converter<R> converter) {
         return Observable.create(new Observable.OnSubscribe<R>() {
             @Override
             public void call(Subscriber<? super R> subscriber) {
                 try {
-                    subscriber.onNext(converter.convert(data));
-                    subscriber.onCompleted();
+                    if (converter == null) {
+                        subscriber.onError(new Throwable("the Converter can not be null"));
+                    } else {
+                        subscriber.onNext(converter.convert(data));
+                        subscriber.onCompleted();
+                    }
                 } catch (Exception e) {
                     subscriber.onError(e);
                 }

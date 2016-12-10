@@ -13,7 +13,7 @@
     <dimen name="text_middle">16sp</dimen>
     <dimen name="text_small">12sp</dimen>
     <dimen name="iv_list_user_header">36dp</dimen>
-    <dimen name="element_margin_left">8dp</dimen>
+    <dimen name="element_margin_left">10dp</dimen>
     <dimen name="element_margin_top">8dp</dimen>
 
 </resources>

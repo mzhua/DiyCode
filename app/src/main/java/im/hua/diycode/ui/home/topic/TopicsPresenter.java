@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.topic;
+package im.hua.diycode.ui.home.topic;
 
 import android.util.Log;
 
@@ -28,17 +28,17 @@ public class TopicsPresenter extends MVPPresenter<TopicsView> {
                 .subscribe(new Subscriber<TopicEntity>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("TopicsPresenter", "onCompleted");
+                        Log.d("TopicsPresenter d", "onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("TopicsPresenter", e.getMessage());
+                        Log.d("TopicsPresenter d", e.getMessage());
                     }
 
                     @Override
                     public void onNext(TopicEntity topicEntity) {
-                        Log.d("TopicsPresenter", topicEntity.getTitle());
+                        Log.d("TopicsPresenter d", topicEntity.getTitle());
                     }
                 });
     }

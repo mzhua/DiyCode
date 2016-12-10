@@ -188,7 +188,7 @@ public class TopicEntity extends BaseEntity{
 
         private int id;
         private String login;
-        private Object name;
+        private String name;
         private String avatar_url;
 
         public int getId() {
@@ -207,11 +207,11 @@ public class TopicEntity extends BaseEntity{
             this.login = login;
         }
 
-        public Object getName() {
+        public String getName() {
             return name;
         }
 
-        public void setName(Object name) {
+        public void setName(String name) {
             this.name = name;
         }
 

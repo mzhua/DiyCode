@@ -1,12 +1,13 @@
-package im.hua.diycode.ui.topic;
+package im.hua.diycode.ui.home.topic;
 
 
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -23,24 +24,28 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
+    private TopicsPresenter mTopicsPresenter;
+
+    private TopicsRVAdapter mTopicsRVAdapter;
+
     @Override
     public TopicsPresenter getPresenter() {
-        return DaggerTopicsComponent.builder().applicationComponent((ApplicationComponent) getApplicationComponent()).build().getTopicsPresenter();
+        if (null == mTopicsPresenter) {
+            mTopicsPresenter = DaggerTopicsComponent.builder().applicationComponent((ApplicationComponent) getApplicationComponent()).build().getTopicsPresenter();
+        }
+        return mTopicsPresenter;
     }
 
     public TopicsFragment() {
     }
 
     public static TopicsFragment getInstance() {
-        TopicsFragment fragment = new TopicsFragment();
-        return fragment;
+        return new TopicsFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getPresenter().getTopicsDetail("485");
-//        getPresenter().getTopics();
     }
 
     @Override
@@ -53,33 +58,26 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        getPresenter().getTopics();
+    }
+
+    @Override
     public void showTopics(List<TopicEntity> topics) {
-        Toast.makeText(getActivity(), "topics.size():" + topics.size(), Toast.LENGTH_SHORT).show();
-
+        if (null == mTopicsRVAdapter) {
+            mTopicsRVAdapter = new TopicsRVAdapter();
+            mRecyclerView.setAdapter(mTopicsRVAdapter);
+        }
+        mTopicsRVAdapter.setTopics(topics);
     }
 
-    class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemViewHolder> {
-
-        @Override
-        public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.topic_list_item, null, false));
-        }
-
-        @Override
-        public void onBindViewHolder(ItemViewHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 0;
-        }
-
-        class ItemViewHolder extends RecyclerView.ViewHolder {
-
-            public ItemViewHolder(View itemView) {
-                super(itemView);
-            }
-        }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mTopicsRVAdapter = null;
     }
+
 }

@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.topic;
+package im.hua.diycode.ui.home.topic;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class TopicsRepository implements ITopicsRepository {
 
     @Override
     public Observable<List<TopicEntity>> getTopics() {
-        return mTopicAPI.getTopics()
+        return mTopicAPI.getTopics("last_actived",null,0,150)
                 .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<List<TopicEntity>>() {
                     @Override
                     public List<TopicEntity> convert(String value) {

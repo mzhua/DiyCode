@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.topic;
+package im.hua.diycode.ui.home.topic;
 
 import java.util.List;
 

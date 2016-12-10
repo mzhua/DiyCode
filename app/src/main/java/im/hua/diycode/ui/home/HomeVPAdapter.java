@@ -5,9 +5,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
-import im.hua.diycode.ui.news.NewsFragment;
-import im.hua.diycode.ui.sites.SitesFragment;
-import im.hua.diycode.ui.topic.TopicsFragment;
+import im.hua.diycode.ui.home.news.NewsFragment;
+import im.hua.diycode.ui.home.sites.SitesFragment;
+import im.hua.diycode.ui.home.topic.TopicsFragment;
 
 /**
  * Created by hua on 2016/11/17.

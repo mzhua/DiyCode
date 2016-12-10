@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.news;
+package im.hua.diycode.ui.home.sites;
 
 
 import android.app.Fragment;
@@ -12,13 +12,13 @@ import im.hua.diycode.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsFragment extends Fragment {
+public class SitesFragment extends Fragment {
 
-    public NewsFragment() {
+    public SitesFragment() {
     }
 
-    public static NewsFragment getInstance() {
-        NewsFragment fragment = new NewsFragment();
+    public static SitesFragment getInstance() {
+        SitesFragment fragment = new SitesFragment();
         return fragment;
     }
 

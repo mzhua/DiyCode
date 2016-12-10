@@ -4,8 +4,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import im.hua.diycode.ui.topic.ITopicsRepository;
-import im.hua.diycode.ui.topic.TopicsRepository;
+import im.hua.diycode.ui.home.topic.ITopicsRepository;
+import im.hua.diycode.ui.home.topic.TopicsRepository;
 
 /**
  * Created by hua on 2016/10/12.
