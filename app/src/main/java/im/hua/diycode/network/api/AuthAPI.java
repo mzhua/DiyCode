@@ -1,6 +1,8 @@
 package im.hua.diycode.network.api;
 
+import retrofit2.Response;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -18,7 +20,8 @@ public interface AuthAPI {
      * @param password
      * @return
      */
+    @FormUrlEncoded
     @POST("oauth/token")
-    Observable getToken(@Field("client_id") String client_id, @Field("client_secret") String client_secret, @Field("grant_type") String grant_type, @Field("username") String username, @Field("password") String password);
+    Observable<Response<String>> getToken(@Field("client_id") String client_id, @Field("client_secret") String client_secret, @Field("grant_type") String grant_type, @Field("username") String username, @Field("password") String password);
 
 }

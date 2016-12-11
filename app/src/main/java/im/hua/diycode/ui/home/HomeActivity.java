@@ -1,5 +1,6 @@
 package im.hua.diycode.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,10 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.hua.diycode.R;
+import im.hua.diycode.ui.login.LoginActivity;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +38,9 @@ public class HomeActivity extends AppCompatActivity
     DrawerLayout mDrawerLayout;
     @BindView(R.id.home_tab_layout)
     TabLayout mHomeTabLayout;
+
+    private ImageView mIvUserHead;
+    private TextView mTvUserName;
 
     private HomeVPAdapter mHomeVPAdapter;
 
@@ -58,7 +65,16 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
 
         mNavView.setNavigationItemSelectedListener(this);
-
+        View headerView = mNavView.getHeaderView(0);
+        mIvUserHead = (ImageView) headerView.findViewById(R.id.nav_user_head);
+        mTvUserName = (TextView) headerView.findViewById(R.id.nav_user_name);
+        mIvUserHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.y_no_move);
+            }
+        });
         mHomeVPAdapter = new HomeVPAdapter(getFragmentManager());
         mHomeViewPager.setAdapter(mHomeVPAdapter);
 
@@ -103,17 +119,17 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_my_post) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_my_collection) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_my_comment) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_my_share) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_about_us) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_setting) {
 
         }
 

@@ -16,5 +16,6 @@
     <dimen name="iv_list_user_header">42dp</dimen>
     <dimen name="element_margin_left">12dp</dimen>
     <dimen name="element_margin_top">8dp</dimen>
+    <dimen name="login_btn_radius">5dp</dimen>
 
 </resources>
