@@ -2,6 +2,7 @@ package im.hua.diycode.ui.home.topic;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -28,6 +30,7 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
     RecyclerView mRecyclerView;
     @BindView(R.id.refresh)
     SwipeRefreshLayout mRefresh;
+    private TextView mLoadMoreView;
 
     private TopicsPresenter mTopicsPresenter;
 
@@ -65,6 +68,7 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -73,6 +77,7 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        mLoadMoreView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.load_more, mRecyclerView, false);
         getPresenter().getTopics(0);
     }
 
@@ -86,7 +91,7 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
         if (null == mTopicsRVAdapter) {
             mTopicsRVAdapter = new TopicsRVAdapter();
             LoadMoreWrapper wrapper = new LoadMoreWrapper(mTopicsRVAdapter);
-            wrapper.setLoadMoreView(R.layout.load_more);
+            wrapper.setLoadMoreView(mLoadMoreView);
             wrapper.setOnLoadMoreListener(new LoadMoreWrapper.OnLoadMoreListener() {
                 @Override
                 public void onLoadMoreRequested() {
@@ -105,7 +110,7 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
 
     @Override
     public void noMoreData() {
-        Toast.makeText(getActivity(), "已经到底啦", Toast.LENGTH_SHORT).show();
+        mLoadMoreView.setText(getActivity().getResources().getText(R.string.load_more_no_more));
     }
 
     @Override
@@ -116,6 +121,7 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
 
     @Override
     public void showLoadingView(String message) {
+        mLoadMoreView.setText(getActivity().getResources().getText(R.string.load_more_loading));
         mRefresh.post(new Runnable() {
             @Override
             public void run() {
@@ -139,7 +145,7 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
     }
 
     @Override
-    public void showErrorMessage(String message) {
+    public void showErrorMessage(@NonNull String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 }

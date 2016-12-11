@@ -44,8 +44,14 @@ public class TopicsPresenter extends MVPPresenter<TopicsView> {
                 });
     }
 
+    private boolean isLoadingMore(int offset) {
+        return offset > 0;
+    }
+
     public void getTopics(final int offset) {
-        getView().showLoadingView("");
+        if (!isLoadingMore(offset)) {
+            getView().showLoadingView("");
+        }
         this.mTopicsRepository.getTopics(null, null, offset)
                 .subscribe(new Subscriber<List<TopicEntity>>() {
                     @Override
@@ -68,7 +74,7 @@ public class TopicsPresenter extends MVPPresenter<TopicsView> {
                         if (null == topicEntities || topicEntities.size() == 0) {
                             getView().noMoreData();
                         } else {
-                            if (offset > 0) {
+                            if (isLoadingMore(offset)) {
                                 getView().appendTopics(topicEntities);
                             } else {
                                 getView().showTopics(topicEntities);
