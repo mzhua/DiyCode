@@ -19,8 +19,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.hua.diycode.R;
 
-import static im.hua.diycode.R.id.fab;
-
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -28,7 +26,7 @@ public class HomeActivity extends AppCompatActivity
     Toolbar mToolbar;
     @BindView(R.id.home_view_pager)
     ViewPager mHomeViewPager;
-    @BindView(fab)
+    @BindView(R.id.fab)
     FloatingActionButton mFab;
     @BindView(R.id.nav_view)
     NavigationView mNavView;

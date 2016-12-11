@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -24,6 +25,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.hua.diycode.R;
+import im.hua.diycode.databinding.TopicListItemBinding;
 import im.hua.diycode.network.entity.TopicEntity;
 import im.hua.diycode.util.MessageShowTimeUtil;
 
@@ -35,12 +37,20 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
         return new ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.topic_list_item, parent, false));
     }
 
+    public void onFavClick(View view,TopicEntity entity) {
+        Toast.makeText(view.getContext(), entity.getNode_name(), Toast.LENGTH_SHORT).show();
+    }
+
+    public void onPraiseClick(View view,TopicEntity entity) {
+        Toast.makeText(view.getContext(), entity.getNode_name(), Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         TopicEntity topic = mTopics.get(position);
-        holder.mTopicUserName.setText(topic.getUser().getName());
-        holder.mTopicNodeName.setText(topic.getNode_name());
-        holder.mTopicTitle.setText(topic.getTitle());
+        holder.mItemBinding.setTopic(topic);
+        holder.mItemBinding.setHandler(this);
+
         Glide.with(holder.itemView.getContext())
                 .load(topic.getUser().getAvatar_url())
                 .into(holder.mTopicUserHeader);
@@ -54,26 +64,6 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.mTopicPraise.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        holder.mTopicFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-    }
-
-    private boolean isWithinOneHour(long timeInMills) {
-        return false;
-    }
-
-    private boolean isTheSameDay(long timeInMills) {
-        return false;
     }
 
     @Override
@@ -91,7 +81,7 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
         if (null == topics) {
             return;
         }
-        topics.addAll(0,this.mTopics);
+        topics.addAll(0, this.mTopics);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallBack(this.mTopics, topics), true);
         diffResult.dispatchUpdatesTo(this);
         mTopics = topics;
@@ -100,22 +90,16 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
     class ItemViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.topic_user_header)
         ImageView mTopicUserHeader;
-        @BindView(R.id.topic_user_name)
-        TextView mTopicUserName;
-        @BindView(R.id.topic_node_name)
-        TextView mTopicNodeName;
         @BindView(R.id.topic_time)
         TextView mTopicTime;
-        @BindView(R.id.topic_title)
-        TextView mTopicTitle;
         @BindView(R.id.topic_pic)
         ImageView mTopicPic;
-        @BindView(R.id.topic_praise)
-        ImageView mTopicPraise;
-        @BindView(R.id.topic_fav)
-        ImageView mTopicFav;
+
+        TopicListItemBinding mItemBinding;
+
         public ItemViewHolder(View itemView) {
             super(itemView);
+            mItemBinding = TopicListItemBinding.bind(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
