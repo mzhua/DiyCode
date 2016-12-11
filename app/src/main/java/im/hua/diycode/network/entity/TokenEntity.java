@@ -1,10 +1,13 @@
 package im.hua.diycode.network.entity;
 
+import io.realm.RealmModel;
+import io.realm.annotations.RealmClass;
+
 /**
  * Created by hua on 2016/12/11.
  */
-
-public class TokenEntity extends BaseEntity {
+@RealmClass
+public class TokenEntity implements RealmModel {
 
     /**
      * access_token : c5937ff7c9e26916dd8d9ac44282a50c83969d93fe192131e8de4f62fc544afd
@@ -19,6 +22,9 @@ public class TokenEntity extends BaseEntity {
     private int expires_in;
     private String refresh_token;
     private int created_at;
+
+    public TokenEntity() {
+    }
 
     public String getAccess_token() {
         return access_token;

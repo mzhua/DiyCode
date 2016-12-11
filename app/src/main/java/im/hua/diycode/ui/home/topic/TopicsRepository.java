@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import im.hua.diycode.network.api.TopicAPI;
+import im.hua.diycode.network.entity.OkEntity;
+import im.hua.diycode.network.entity.TokenEntity;
 import im.hua.diycode.network.entity.TopicEntity;
 import im.hua.diycode.network.util.ResponseCompose;
 import im.hua.diycode.util.GsonConverterUtil;
@@ -17,15 +19,17 @@ import rx.Observable;
 
 public class TopicsRepository implements ITopicsRepository {
     private TopicAPI mTopicAPI;
+    private TokenEntity mTokenEntity;
 
     @Inject
-    public TopicsRepository(TopicAPI topicAPI) {
+    public TopicsRepository(TopicAPI topicAPI, TokenEntity tokenEntity) {
         mTopicAPI = topicAPI;
+        mTokenEntity = tokenEntity;
     }
 
     @Override
-    public Observable<List<TopicEntity>> getTopics(String type,Integer nodeId,int offset) {
-        return mTopicAPI.getTopics(type,nodeId, offset,20)
+    public Observable<List<TopicEntity>> getTopics(String type, Integer nodeId, int offset) {
+        return mTopicAPI.getTopics(type, nodeId, offset, 20)
                 .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<List<TopicEntity>>() {
                     @Override
                     public List<TopicEntity> convert(String value) {
@@ -40,8 +44,62 @@ public class TopicsRepository implements ITopicsRepository {
                 .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<TopicEntity>() {
                     @Override
                     public TopicEntity convert(String value) {
-                        return GsonConverterUtil.jsonObjectParse(TopicEntity.class,value);
+                        return GsonConverterUtil.jsonObjectParse(TopicEntity.class, value);
                     }
                 }));
+    }
+
+    @Override
+    public Observable<OkEntity> favTopic(String topicId, boolean favorite) {
+        if (null == mTokenEntity) {
+            return Observable.just(new OkEntity());
+        }
+        Observable<OkEntity> fav;
+        if (favorite) {
+            fav = mTopicAPI.favTopic(topicId, mTokenEntity.getAccess_token())
+                    .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<OkEntity>() {
+                        @Override
+                        public OkEntity convert(String value) {
+                            return GsonConverterUtil.jsonObjectParse(OkEntity.class, value);
+                        }
+                    }));
+        } else {
+            fav = mTopicAPI.unFavTopic(topicId, mTokenEntity.getAccess_token())
+                    .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<OkEntity>() {
+                        @Override
+                        public OkEntity convert(String value) {
+                            return GsonConverterUtil.jsonObjectParse(OkEntity.class, value);
+                        }
+                    }));
+        }
+
+        return fav;
+    }
+
+    @Override
+    public Observable<OkEntity> followTopic(String topicId, boolean follow) {
+        if (null == mTokenEntity) {
+            return Observable.just(new OkEntity());
+        }
+        Observable<OkEntity> fo;
+        if (follow) {
+            fo = mTopicAPI.followTopic(topicId, mTokenEntity.getAccess_token())
+                    .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<OkEntity>() {
+                        @Override
+                        public OkEntity convert(String value) {
+                            return GsonConverterUtil.jsonObjectParse(OkEntity.class, value);
+                        }
+                    }));
+        } else {
+            fo = mTopicAPI.unFollowTopic(topicId, mTokenEntity.getAccess_token())
+                    .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<OkEntity>() {
+                        @Override
+                        public OkEntity convert(String value) {
+                            return GsonConverterUtil.jsonObjectParse(OkEntity.class, value);
+                        }
+                    }));
+        }
+
+        return fo;
     }
 }

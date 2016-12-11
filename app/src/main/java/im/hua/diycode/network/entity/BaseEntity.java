@@ -4,7 +4,7 @@ package im.hua.diycode.network.entity;
  * Created by hua on 2016/12/9.
  */
 
-public class BaseEntity {
+public class BaseEntity{
 
     /**
      * error : Error message

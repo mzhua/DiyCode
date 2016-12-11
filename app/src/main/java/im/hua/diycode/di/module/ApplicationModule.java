@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import im.hua.diycode.network.entity.TokenEntity;
 import im.hua.diycode.network.util.stringconverter.StringConverterFactory;
 import im.hua.mvp.framework.BuildConfig;
 import im.hua.mvp.framework.FApplication;
@@ -66,5 +67,11 @@ public class ApplicationModule {
         RealmConfiguration config = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(config);
         return Realm.getDefaultInstance();
+    }
+
+    @Provides
+    @Singleton
+    TokenEntity provideTokenEntity(Realm realm) {
+        return realm.where(TokenEntity.class).findFirst();
     }
 }

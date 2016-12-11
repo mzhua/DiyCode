@@ -8,7 +8,7 @@
             type="im.hua.diycode.network.entity.TopicEntity"/>
         <variable
             name="handler"
-            type="im.hua.diycode.ui.home.topic.TopicsRVAdapter"/>
+            type="im.hua.diycode.ui.home.topic.TopicsFragment"/>
     </data>
 
     <RelativeLayout
@@ -78,7 +78,7 @@
             android:maxLines="1"
             android:text="@{topic.node_name}"
             android:textColor="@color/textSecondary"
-            android:textSize="@dimen/text_normal"/>
+            android:textSize="@dimen/text_middle"/>
 
         <TextView
             android:id="@+id/topic_dot"
@@ -91,7 +91,7 @@
             android:gravity="center"
             android:text="·"
             android:textColor="@color/textSecondary"
-            android:textSize="@dimen/text_normal"/>
+            android:textSize="@dimen/text_middle"/>
 
         <TextView
             android:id="@+id/topic_time"
@@ -103,7 +103,7 @@
             android:gravity="end"
             android:maxLines="1"
             android:textColor="@color/textSecondary"
-            android:textSize="@dimen/text_normal"/>
+            android:textSize="@dimen/text_middle"/>
 
         <ImageView
             android:id="@+id/topic_pic"

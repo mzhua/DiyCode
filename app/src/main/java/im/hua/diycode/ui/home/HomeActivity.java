@@ -10,7 +10,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,13 +17,30 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.hua.diycode.R;
+import im.hua.diycode.di.component.ApplicationComponent;
+import im.hua.diycode.di.component.DaggerHomeComponent;
+import im.hua.diycode.network.entity.UserEntity;
 import im.hua.diycode.ui.login.LoginActivity;
+import im.hua.mvp.framework.BaseActivity;
+import io.realm.Realm;
+import io.realm.RealmResults;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 
-public class HomeActivity extends AppCompatActivity
+public class HomeActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @Inject
+    Realm mRealm;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -47,6 +63,10 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DaggerHomeComponent.builder()
+                .applicationComponent((ApplicationComponent) getApplicationComponent())
+                .build()
+                .inject(this);
         setContentView(R.layout.home_activity);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
@@ -71,14 +91,52 @@ public class HomeActivity extends AppCompatActivity
         mIvUserHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                overridePendingTransition(R.anim.slide_in_bottom, R.anim.y_no_move);
+                RealmResults<UserEntity> all = mRealm.where(UserEntity.class).findAll();
+                if (all.size() <= 0) {
+                    startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                    overridePendingTransition(R.anim.slide_in_bottom, R.anim.y_no_move);
+                }
             }
         });
         mHomeVPAdapter = new HomeVPAdapter(getFragmentManager());
         mHomeViewPager.setAdapter(mHomeVPAdapter);
 
         mHomeTabLayout.setupWithViewPager(mHomeViewPager);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mRealm.where(UserEntity.class)
+                .findAllAsync()
+                .asObservable()
+                .first()
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Func1<RealmResults<UserEntity>, Observable<UserEntity>>() {
+                    @Override
+                    public Observable<UserEntity> call(RealmResults<UserEntity> userEntities) {
+                        return Observable.from(userEntities);
+                    }
+                })
+                .subscribe(new Subscriber<UserEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showShortToast(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(UserEntity userEntity) {
+                        mTvUserName.setText(userEntity.getName());
+                        Glide.with(HomeActivity.this)
+                                .load(userEntity.getAvatar_url())
+                                .into(mIvUserHead);
+                    }
+                });
     }
 
     @Override

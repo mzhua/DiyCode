@@ -1,6 +1,7 @@
 package im.hua.diycode.ui.home.topic;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -21,6 +22,7 @@ import im.hua.diycode.R;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerTopicsComponent;
 import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.ui.login.LoginActivity;
 import im.hua.diycode.widget.rvwrapper.LoadMoreWrapper;
 import im.hua.mvp.framework.MVPFragment;
 
@@ -89,7 +91,7 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
 
     private void initAdapter() {
         if (null == mTopicsRVAdapter) {
-            mTopicsRVAdapter = new TopicsRVAdapter();
+            mTopicsRVAdapter = new TopicsRVAdapter(this);
             LoadMoreWrapper wrapper = new LoadMoreWrapper(mTopicsRVAdapter);
             wrapper.setLoadMoreView(mLoadMoreView);
             wrapper.setOnLoadMoreListener(new LoadMoreWrapper.OnLoadMoreListener() {
@@ -102,6 +104,16 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
         }
     }
 
+    public void onFavClick(View view,TopicEntity entity) {
+//        Toast.makeText(view.getContext(), entity.getNode_name(), Toast.LENGTH_SHORT).show();
+        getPresenter().favTopic(entity.getId(),true);
+    }
+
+    public void onPraiseClick(View view,TopicEntity entity) {
+//        Toast.makeText(view.getContext(), entity.getNode_name(), Toast.LENGTH_SHORT).show();
+        getPresenter().followTopic(entity.getId(),true);
+    }
+
     @Override
     public void appendTopics(List<TopicEntity> topics) {
         initAdapter();
@@ -111,6 +123,33 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
     @Override
     public void noMoreData() {
         mLoadMoreView.setText(getActivity().getResources().getText(R.string.load_more_no_more));
+    }
+
+    @Override
+    public void favSuccess(String topicId, boolean fav) {
+        showShortToast("收藏成功");
+    }
+
+    @Override
+    public void favFailed(String topicId, boolean fav) {
+        showShortToast("收藏失败");
+    }
+
+    @Override
+    public void followSuccess(String topicId, boolean follow) {
+        showShortToast("follow成功");
+    }
+
+    @Override
+    public void followFailed(String topicId, boolean follow) {
+        showShortToast("follow失败");
+    }
+
+    @Override
+    public void reLogin(String message) {
+        showShortToast("AccessToken失效，请重新登录");
+        startActivity(new Intent(getActivity(), LoginActivity.class));
+        getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.y_no_move);
     }
 
     @Override

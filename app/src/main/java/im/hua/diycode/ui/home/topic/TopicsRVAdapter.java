@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -32,24 +31,22 @@ import im.hua.diycode.util.MessageShowTimeUtil;
 public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemViewHolder> {
     private List<TopicEntity> mTopics;
 
+    private TopicsFragment mTopicsFragment;
+
+    public TopicsRVAdapter(TopicsFragment topicsFragment) {
+        mTopicsFragment = topicsFragment;
+    }
+
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.topic_list_item, parent, false));
-    }
-
-    public void onFavClick(View view,TopicEntity entity) {
-        Toast.makeText(view.getContext(), entity.getNode_name(), Toast.LENGTH_SHORT).show();
-    }
-
-    public void onPraiseClick(View view,TopicEntity entity) {
-        Toast.makeText(view.getContext(), entity.getNode_name(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         TopicEntity topic = mTopics.get(position);
         holder.mItemBinding.setTopic(topic);
-        holder.mItemBinding.setHandler(this);
+        holder.mItemBinding.setHandler(mTopicsFragment);
 
         Glide.with(holder.itemView.getContext())
                 .load(topic.getUser().getAvatar_url())
@@ -72,9 +69,10 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
     }
 
     public void setTopics(List<TopicEntity> topics) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallBack(this.mTopics, topics), true);
-        diffResult.dispatchUpdatesTo(this);
+//        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallBack(this.mTopics, topics), true);
+//        diffResult.dispatchUpdatesTo(this);
         mTopics = topics;
+        notifyDataSetChanged();
     }
 
     public void appendTopics(List<TopicEntity> topics) {
@@ -85,6 +83,10 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallBack(this.mTopics, topics), true);
         diffResult.dispatchUpdatesTo(this);
         mTopics = topics;
+    }
+
+    public List<TopicEntity> getTopics() {
+        return mTopics;
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {

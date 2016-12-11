@@ -15,4 +15,5 @@
     <string name="password">密码</string>
     <string name="login">登录</string>
     <string name="account">Email / 用户名</string>
+    <string name="click_head_to_login">点击头像登录</string>
 </resources>

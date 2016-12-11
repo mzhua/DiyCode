@@ -15,16 +15,15 @@
 
     <ImageView
         android:id="@+id/nav_user_head"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         app:srcCompat="@android:drawable/sym_def_app_icon"/>
 
     <TextView android:id="@+id/nav_user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Android Studio"
+        android:text="@string/click_head_to_login"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>

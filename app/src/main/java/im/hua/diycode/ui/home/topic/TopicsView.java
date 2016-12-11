@@ -15,4 +15,14 @@ public interface TopicsView extends IMVPView {
     void appendTopics(List<TopicEntity> topics);
 
     void noMoreData();
+
+    void favSuccess(String topicId, boolean fav);
+
+    void favFailed(String topicId, boolean fav);
+
+    void followSuccess(String topicId, boolean follow);
+
+    void followFailed(String topicId, boolean follow);
+
+    void reLogin(String message);
 }

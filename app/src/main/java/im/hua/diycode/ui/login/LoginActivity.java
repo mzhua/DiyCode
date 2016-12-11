@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -26,12 +27,17 @@ import im.hua.diycode.R;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerLoginComponent;
 import im.hua.diycode.network.api.AuthAPI;
+import im.hua.diycode.network.api.UserAPI;
 import im.hua.diycode.network.entity.TokenEntity;
+import im.hua.diycode.network.entity.UserEntity;
 import im.hua.diycode.network.util.ResponseCompose;
 import im.hua.diycode.util.GsonConverterUtil;
 import im.hua.mvp.framework.BaseActivity;
+import io.realm.Realm;
 import retrofit2.Retrofit;
+import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Func1;
 
 import static im.hua.diycode.R.id.toolbar;
 
@@ -40,7 +46,12 @@ public class LoginActivity extends BaseActivity {
     @Inject
     Retrofit mRetrofit;
 
+    @Inject
+    Realm mRealm;
+
     AuthAPI mAuthAPI;
+
+    UserAPI mUserAPI;
 
     @BindView(toolbar)
     Toolbar mToolbar;
@@ -59,6 +70,7 @@ public class LoginActivity extends BaseActivity {
                 .build().inject(this);
 
         mAuthAPI = mRetrofit.create(AuthAPI.class);
+        mUserAPI = mRetrofit.create(UserAPI.class);
 
         setContentView(R.layout.login_activity);
         ButterKnife.bind(this);
@@ -84,6 +96,8 @@ public class LoginActivity extends BaseActivity {
         mLoginAccount.setAdapter(emailAdapter);
     }
 
+    private Subscriber<UserEntity> mSubscriber;
+
     @OnClick(R.id.login_btn)
     public void login(View view) {
         String account = mLoginAccount.getText().toString();
@@ -98,6 +112,31 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
+        mSubscriber = new Subscriber<UserEntity>() {
+            @Override
+            public void onCompleted() {
+                finishWithAnimation();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNext(UserEntity userEntity) {
+                //cache user info
+                try {
+                    mRealm.beginTransaction();
+                    mRealm.copyToRealm(userEntity);
+                } catch (IllegalArgumentException e) {
+                    Log.d("LoginActivity", e.getMessage());
+                } finally {
+                    mRealm.commitTransaction();
+                }
+                Toast.makeText(LoginActivity.this, userEntity.getName(), Toast.LENGTH_SHORT).show();
+            }
+        };
         this.mAuthAPI.getToken("a27e72bd", "aafa838eeede101e5e2b5862c2087da6a403df1cd485ed0b7b6351adb96b4389", "password", account, pwd)
                 .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<TokenEntity>() {
                     @Override
@@ -105,22 +144,28 @@ public class LoginActivity extends BaseActivity {
                         return GsonConverterUtil.jsonObjectParse(TokenEntity.class, value);
                     }
                 }))
-                .subscribe(new Subscriber<TokenEntity>() {
+                .flatMap(new Func1<TokenEntity, Observable<UserEntity>>() {
                     @Override
-                    public void onCompleted() {
-                        finishWithAnimation();
+                    public Observable<UserEntity> call(TokenEntity tokenEntity) {
+                        //cache token
+                        try {
+                            mRealm.beginTransaction();
+                            mRealm.copyToRealm(tokenEntity);
+                        } catch (IllegalArgumentException e) {
+                            Log.d("LoginActivity", e.getMessage());
+                        } finally {
+                            mRealm.commitTransaction();
+                        }
+                        return mUserAPI.getCurrentUserInfo(tokenEntity.getAccess_token())
+                                .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<UserEntity>() {
+                                    @Override
+                                    public UserEntity convert(String value) {
+                                        return GsonConverterUtil.jsonObjectParse(UserEntity.class, value);
+                                    }
+                                }));
                     }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(TokenEntity tokenEntity) {
-                        Toast.makeText(LoginActivity.this, tokenEntity.getAccess_token(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                })
+                .subscribe(mSubscriber);
     }
 
     private void finishWithAnimation() {
@@ -132,5 +177,13 @@ public class LoginActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finishWithAnimation();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != mSubscriber && !mSubscriber.isUnsubscribed()) {
+            mSubscriber.unsubscribe();
+        }
     }
 }

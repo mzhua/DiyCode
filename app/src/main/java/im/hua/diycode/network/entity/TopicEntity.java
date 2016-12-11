@@ -6,7 +6,7 @@ package im.hua.diycode.network.entity;
 
 public class TopicEntity extends BaseEntity{
 
-    private int id;
+    private String id;
     private String title;
     private String created_at;
     private String updated_at;
@@ -26,11 +26,11 @@ public class TopicEntity extends BaseEntity{
     private int likes_count;
     private Object suggested_at;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

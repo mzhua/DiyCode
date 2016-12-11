@@ -2,6 +2,7 @@ package im.hua.diycode.ui.home.topic;
 
 import java.util.List;
 
+import im.hua.diycode.network.entity.OkEntity;
 import im.hua.diycode.network.entity.TopicEntity;
 import rx.Observable;
 
@@ -22,4 +23,20 @@ public interface ITopicsRepository {
      * @return
      */
     Observable<TopicEntity> getTopicsDetailById(String id);
+
+    /**
+     * 收藏
+     * @param topicId
+     * @param favorite
+     * @return
+     */
+    Observable<OkEntity> favTopic(String topicId,boolean favorite);
+
+    /**
+     * 关注
+     * @param topicId
+     * @param follow
+     * @return
+     */
+    Observable<OkEntity> followTopic(String topicId,boolean follow);
 }

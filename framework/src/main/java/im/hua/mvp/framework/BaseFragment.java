@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import im.hua.mvp.framework.di.FApplicationComponent;
 
@@ -26,6 +27,20 @@ public class BaseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
+    }
+
+    public void showShortToast(String message) {
+        if (TextUtils.isEmpty(message)) {
+            return;
+        }
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showLongToast(String message) {
+        if (TextUtils.isEmpty(message)) {
+            return;
+        }
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     public void showProgressDialog(@Nullable String title, @NonNull String message, @Nullable final BaseActivity.OnDialogDismissListener listener) {

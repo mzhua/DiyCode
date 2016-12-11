@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import im.hua.diycode.network.MyException;
+import im.hua.diycode.network.entity.OkEntity;
 import im.hua.diycode.network.entity.TopicEntity;
 import im.hua.mvp.framework.MVPPresenter;
 import rx.Subscriber;
@@ -84,4 +86,59 @@ public class TopicsPresenter extends MVPPresenter<TopicsView> {
                 });
     }
 
+    public void favTopic(final String topicId, final boolean favorite) {
+        this.mTopicsRepository.favTopic(topicId, favorite)
+                .subscribe(new Subscriber<OkEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof MyException && ((MyException) e).getCode() == 401) {
+                            getView().reLogin(e.getMessage());
+                        } else {
+                            getView().favFailed(topicId, favorite);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(OkEntity okEntity) {
+                        if (okEntity.getOk() == 0) {
+                            getView().favFailed(topicId, favorite);
+                        } else {
+                            getView().favSuccess(topicId, favorite);
+                        }
+                    }
+                });
+    }
+
+    public void followTopic(final String topicId, final boolean follow) {
+        this.mTopicsRepository.followTopic(topicId, follow)
+                .subscribe(new Subscriber<OkEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof MyException && ((MyException) e).getCode() == 401) {
+                            getView().reLogin(e.getMessage());
+                        } else {
+                            getView().followFailed(topicId, follow);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(OkEntity okEntity) {
+                        if (okEntity.getOk() == 0) {
+                            getView().followFailed(topicId, follow);
+                        } else {
+                            getView().followSuccess(topicId, follow);
+                        }
+                    }
+                });
+    }
 }
