@@ -1,5 +1,8 @@
 package im.hua.diycode.network.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import io.realm.RealmModel;
 import io.realm.annotations.RealmClass;
 
@@ -7,7 +10,7 @@ import io.realm.annotations.RealmClass;
  * Created by hua on 2016/11/17.
  */
 @RealmClass
-public class UserEntity implements RealmModel{
+public class UserEntity implements RealmModel,Parcelable{
 
     /**
      * id : 1205
@@ -215,4 +218,69 @@ public class UserEntity implements RealmModel{
     public void setLevel_name(String level_name) {
         this.level_name = level_name;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.login);
+        dest.writeString(this.name);
+        dest.writeString(this.avatar_url);
+        dest.writeString(this.location);
+        dest.writeString(this.company);
+        dest.writeString(this.twitter);
+        dest.writeString(this.website);
+        dest.writeString(this.bio);
+        dest.writeString(this.tagline);
+        dest.writeString(this.github);
+        dest.writeString(this.created_at);
+        dest.writeString(this.email);
+        dest.writeInt(this.topics_count);
+        dest.writeInt(this.replies_count);
+        dest.writeInt(this.following_count);
+        dest.writeInt(this.followers_count);
+        dest.writeInt(this.favorites_count);
+        dest.writeString(this.level);
+        dest.writeString(this.level_name);
+    }
+
+    protected UserEntity(Parcel in) {
+        this.id = in.readInt();
+        this.login = in.readString();
+        this.name = in.readString();
+        this.avatar_url = in.readString();
+        this.location = in.readString();
+        this.company = in.readString();
+        this.twitter = in.readString();
+        this.website = in.readString();
+        this.bio = in.readString();
+        this.tagline = in.readString();
+        this.github = in.readString();
+        this.created_at = in.readString();
+        this.email = in.readString();
+        this.topics_count = in.readInt();
+        this.replies_count = in.readInt();
+        this.following_count = in.readInt();
+        this.followers_count = in.readInt();
+        this.favorites_count = in.readInt();
+        this.level = in.readString();
+        this.level_name = in.readString();
+    }
+
+    public static final Creator<UserEntity> CREATOR = new Creator<UserEntity>() {
+        @Override
+        public UserEntity createFromParcel(Parcel source) {
+            return new UserEntity(source);
+        }
+
+        @Override
+        public UserEntity[] newArray(int size) {
+            return new UserEntity[size];
+        }
+    };
 }

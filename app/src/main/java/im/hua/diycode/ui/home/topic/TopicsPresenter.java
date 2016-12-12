@@ -1,7 +1,5 @@
 package im.hua.diycode.ui.home.topic;
 
-import android.util.Log;
-
 import java.net.UnknownHostException;
 import java.util.List;
 
@@ -24,26 +22,6 @@ public class TopicsPresenter extends MVPPresenter<TopicsView> {
     @Inject
     public TopicsPresenter(ITopicsRepository topicsRepository) {
         mTopicsRepository = topicsRepository;
-    }
-
-    public void getTopicsDetail(String id) {
-        this.mTopicsRepository.getTopicsDetailById(id)
-                .subscribe(new Subscriber<TopicEntity>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d("TopicsPresenter d", "onCompleted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("TopicsPresenter d", e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(TopicEntity topicEntity) {
-                        Log.d("TopicsPresenter d", topicEntity.getTitle());
-                    }
-                });
     }
 
     private boolean isLoadingMore(int offset) {
@@ -96,10 +74,9 @@ public class TopicsPresenter extends MVPPresenter<TopicsView> {
 
                     @Override
                     public void onError(Throwable e) {
+                        getView().favFailed(topicId, favorite);
                         if (e instanceof MyException && ((MyException) e).getCode() == 401) {
                             getView().reLogin(e.getMessage());
-                        } else {
-                            getView().favFailed(topicId, favorite);
                         }
                     }
 
@@ -107,6 +84,7 @@ public class TopicsPresenter extends MVPPresenter<TopicsView> {
                     public void onNext(OkEntity okEntity) {
                         if (okEntity.getOk() == 0) {
                             getView().favFailed(topicId, favorite);
+                            getView().reLogin("token无效，请重新登录！");
                         } else {
                             getView().favSuccess(topicId, favorite);
                         }
@@ -124,10 +102,9 @@ public class TopicsPresenter extends MVPPresenter<TopicsView> {
 
                     @Override
                     public void onError(Throwable e) {
+                        getView().followFailed(topicId, follow);
                         if (e instanceof MyException && ((MyException) e).getCode() == 401) {
                             getView().reLogin(e.getMessage());
-                        } else {
-                            getView().followFailed(topicId, follow);
                         }
                     }
 
@@ -135,6 +112,7 @@ public class TopicsPresenter extends MVPPresenter<TopicsView> {
                     public void onNext(OkEntity okEntity) {
                         if (okEntity.getOk() == 0) {
                             getView().followFailed(topicId, follow);
+                            getView().reLogin("token无效，请重新登录！");
                         } else {
                             getView().followSuccess(topicId, follow);
                         }

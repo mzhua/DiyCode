@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,6 +24,7 @@ import butterknife.ButterKnife;
 import im.hua.diycode.R;
 import im.hua.diycode.databinding.TopicListItemBinding;
 import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.util.ImageViewLoader;
 import im.hua.diycode.util.MessageShowTimeUtil;
 
 public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemViewHolder> {
@@ -48,9 +47,7 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
         holder.mItemBinding.setTopic(topic);
         holder.mItemBinding.setHandler(mTopicsFragment);
 
-        Glide.with(holder.itemView.getContext())
-                .load(topic.getUser().getAvatar_url())
-                .into(holder.mTopicUserHeader);
+        ImageViewLoader.loadUrl(holder.itemView.getContext(), topic.getUser().getAvatar_url(), holder.mTopicUserHeader, ImageViewLoader.NO_PLACE_HOLDER, ImageViewLoader.Shape.DEFAULT);
 
         //2016-12-10T01:53:12.465+08:00
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.CHINESE);
@@ -69,8 +66,11 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
     }
 
     public void setTopics(List<TopicEntity> topics) {
-//        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallBack(this.mTopics, topics), true);
-//        diffResult.dispatchUpdatesTo(this);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallBack(this.mTopics, topics), true);
+        diffResult.dispatchUpdatesTo(this);
+        if (null != mTopics) {
+            mTopics.clear();
+        }
         mTopics = topics;
         notifyDataSetChanged();
     }
@@ -82,6 +82,9 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
         topics.addAll(0, this.mTopics);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallBack(this.mTopics, topics), true);
         diffResult.dispatchUpdatesTo(this);
+        if (null != mTopics) {
+            mTopics.clear();
+        }
         mTopics = topics;
     }
 

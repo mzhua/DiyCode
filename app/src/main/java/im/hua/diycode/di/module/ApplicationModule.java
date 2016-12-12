@@ -72,6 +72,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     TokenEntity provideTokenEntity(Realm realm) {
-        return realm.where(TokenEntity.class).findFirst();
+        TokenEntity tokenEntity = realm.where(TokenEntity.class).findFirst();
+        return null == tokenEntity ? new TokenEntity() : tokenEntity;
     }
 }

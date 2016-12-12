@@ -1,10 +1,13 @@
 package im.hua.diycode.network.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by hua on 2016/11/17.
  */
 
-public class TopicEntity extends BaseEntity{
+public class TopicEntity extends BaseEntity implements Parcelable{
 
     private String id;
     private String title;
@@ -24,7 +27,7 @@ public class TopicEntity extends BaseEntity{
     private String body_html;
     private int hits;
     private int likes_count;
-    private Object suggested_at;
+    private String suggested_at;
 
     public String getId() {
         return id;
@@ -170,58 +173,77 @@ public class TopicEntity extends BaseEntity{
         this.likes_count = likes_count;
     }
 
-    public Object getSuggested_at() {
+    public String getSuggested_at() {
         return suggested_at;
     }
 
-    public void setSuggested_at(Object suggested_at) {
+    public void setSuggested_at(String suggested_at) {
         this.suggested_at = suggested_at;
     }
 
-    public static class UserEntity {
-        /**
-         * id : 3362
-         * login : start-iii
-         * name : null
-         * avatar_url : http://diycode.cc/system/letter_avatars/2/S/162_136_126/240.png
-         */
 
-        private int id;
-        private String login;
-        private String name;
-        private String avatar_url;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getLogin() {
-            return login;
-        }
-
-        public void setLogin(String login) {
-            this.login = login;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getAvatar_url() {
-            return avatar_url;
-        }
-
-        public void setAvatar_url(String avatar_url) {
-            this.avatar_url = avatar_url;
-        }
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.created_at);
+        dest.writeString(this.updated_at);
+        dest.writeString(this.replied_at);
+        dest.writeInt(this.replies_count);
+        dest.writeString(this.node_name);
+        dest.writeInt(this.node_id);
+        dest.writeInt(this.last_reply_user_id);
+        dest.writeString(this.last_reply_user_login);
+        dest.writeParcelable(this.user, flags);
+        dest.writeByte(this.deleted ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.excellent ? (byte) 1 : (byte) 0);
+        dest.writeParcelable(this.abilities, flags);
+        dest.writeString(this.body);
+        dest.writeString(this.body_html);
+        dest.writeInt(this.hits);
+        dest.writeInt(this.likes_count);
+        dest.writeString(this.suggested_at);
+    }
+
+    public TopicEntity() {
+    }
+
+    protected TopicEntity(Parcel in) {
+        this.id = in.readString();
+        this.title = in.readString();
+        this.created_at = in.readString();
+        this.updated_at = in.readString();
+        this.replied_at = in.readString();
+        this.replies_count = in.readInt();
+        this.node_name = in.readString();
+        this.node_id = in.readInt();
+        this.last_reply_user_id = in.readInt();
+        this.last_reply_user_login = in.readString();
+        this.user = in.readParcelable(UserEntity.class.getClassLoader());
+        this.deleted = in.readByte() != 0;
+        this.excellent = in.readByte() != 0;
+        this.abilities = in.readParcelable(AbilitiesEntity.class.getClassLoader());
+        this.body = in.readString();
+        this.body_html = in.readString();
+        this.hits = in.readInt();
+        this.likes_count = in.readInt();
+        this.suggested_at = in.readString();
+    }
+
+    public static final Creator<TopicEntity> CREATOR = new Creator<TopicEntity>() {
+        @Override
+        public TopicEntity createFromParcel(Parcel source) {
+            return new TopicEntity(source);
+        }
+
+        @Override
+        public TopicEntity[] newArray(int size) {
+            return new TopicEntity[size];
+        }
+    };
 }

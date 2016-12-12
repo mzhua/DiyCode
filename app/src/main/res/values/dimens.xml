@@ -17,5 +17,7 @@
     <dimen name="element_margin_left">12dp</dimen>
     <dimen name="element_margin_top">8dp</dimen>
     <dimen name="login_btn_radius">5dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 
 </resources>

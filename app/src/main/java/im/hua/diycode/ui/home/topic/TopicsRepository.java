@@ -1,5 +1,7 @@
 package im.hua.diycode.ui.home.topic;
 
+import android.text.TextUtils;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -51,7 +53,7 @@ public class TopicsRepository implements ITopicsRepository {
 
     @Override
     public Observable<OkEntity> favTopic(String topicId, boolean favorite) {
-        if (null == mTokenEntity) {
+        if (isTokenInvalid()) {
             return Observable.just(new OkEntity());
         }
         Observable<OkEntity> fav;
@@ -78,7 +80,7 @@ public class TopicsRepository implements ITopicsRepository {
 
     @Override
     public Observable<OkEntity> followTopic(String topicId, boolean follow) {
-        if (null == mTokenEntity) {
+        if (isTokenInvalid()) {
             return Observable.just(new OkEntity());
         }
         Observable<OkEntity> fo;
@@ -101,5 +103,9 @@ public class TopicsRepository implements ITopicsRepository {
         }
 
         return fo;
+    }
+
+    private boolean isTokenInvalid() {
+        return null == mTokenEntity || TextUtils.isEmpty(mTokenEntity.getAccess_token());
     }
 }

@@ -24,6 +24,11 @@ public interface TopicAPI {
     @GET("api/v3/topics.json")
     Observable<Response<String>> getTopics(@Query("type") String type, @Query("node_id") Integer node_id, @Query("offset") Integer offset, @Query("limit") Integer limit);
 
+    /**
+     * 获取话题详情
+     * @param id
+     * @return
+     */
     @GET("api/v3/topics/{id}")
     Observable<Response<String>> getTopicsDetail(@Path("id") String id);
 
@@ -62,5 +67,22 @@ public interface TopicAPI {
      */
     @POST("api/v3/topics/{topicId}/unfollow.json")
     Observable<Response<String>> unFollowTopic(@Path("topicId") String topicId,@Query("access_token") String access_token);
+
+    /**
+     * 获取话题评论
+     * @param topicId
+     * @return
+     */
+    @GET("api/v3/topics/{topicId}/replies.json")
+    Observable<Response<String>> getTopicsReplies(@Path("topicId") String topicId);
+
+    /**
+     * 获取当前登录用户的收藏
+     * @param access_token
+     * @param userName
+     * @return
+     */
+    @GET("api/v3/users/{userName}/favorites.json")
+    Observable<Response<String>> getCurrentUserFavorites(@Query("access_token") String access_token, @Path("userName") String userName);
 
 }

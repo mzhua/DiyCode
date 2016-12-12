@@ -22,6 +22,7 @@ import im.hua.diycode.R;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerTopicsComponent;
 import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.ui.home.topic.detail.TopicDetailActivity;
 import im.hua.diycode.ui.login.LoginActivity;
 import im.hua.diycode.widget.rvwrapper.LoadMoreWrapper;
 import im.hua.mvp.framework.MVPFragment;
@@ -104,14 +105,20 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
         }
     }
 
-    public void onFavClick(View view,TopicEntity entity) {
-//        Toast.makeText(view.getContext(), entity.getNode_name(), Toast.LENGTH_SHORT).show();
-        getPresenter().favTopic(entity.getId(),true);
+    public void onItemClick(View view, TopicEntity entity) {
+        Intent intent = new Intent(getActivity(), TopicDetailActivity.class);
+        intent.putExtra("topic", entity);
+        startActivity(intent);
     }
 
-    public void onPraiseClick(View view,TopicEntity entity) {
+    public void onFavClick(View view, TopicEntity entity) {
 //        Toast.makeText(view.getContext(), entity.getNode_name(), Toast.LENGTH_SHORT).show();
-        getPresenter().followTopic(entity.getId(),true);
+        getPresenter().favTopic(entity.getId(), true);
+    }
+
+    public void onPraiseClick(View view, TopicEntity entity) {
+//        Toast.makeText(view.getContext(), entity.getNode_name(), Toast.LENGTH_SHORT).show();
+        getPresenter().followTopic(entity.getId(), true);
     }
 
     @Override
