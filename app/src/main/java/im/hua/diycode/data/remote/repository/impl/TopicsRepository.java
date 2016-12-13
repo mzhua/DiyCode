@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.home.topic;
+package im.hua.diycode.data.remote.repository.impl;
 
 import android.text.TextUtils;
 
@@ -6,10 +6,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import im.hua.diycode.data.remote.repository.ITopicsRepository;
 import im.hua.diycode.network.api.TopicAPI;
 import im.hua.diycode.network.entity.OkEntity;
 import im.hua.diycode.network.entity.TokenEntity;
 import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.network.entity.TopicReplyEntity;
 import im.hua.diycode.network.util.ResponseCompose;
 import im.hua.diycode.util.GsonConverterUtil;
 import rx.Observable;
@@ -103,6 +105,17 @@ public class TopicsRepository implements ITopicsRepository {
         }
 
         return fo;
+    }
+
+    @Override
+    public Observable<List<TopicReplyEntity>> getRepliesOfTopic(String topicId, int offset) {
+        return this.mTopicAPI.getTopicsReplies(topicId,offset,20)
+                .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<List<TopicReplyEntity>>() {
+                    @Override
+                    public List<TopicReplyEntity> convert(String value) {
+                        return GsonConverterUtil.jsonArrayParse(TopicReplyEntity.class,value);
+                    }
+                }));
     }
 
     private boolean isTokenInvalid() {

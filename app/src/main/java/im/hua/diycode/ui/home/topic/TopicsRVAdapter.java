@@ -20,7 +20,7 @@ import im.hua.diycode.R;
 import im.hua.diycode.databinding.TopicListItemBinding;
 import im.hua.diycode.network.entity.TopicEntity;
 import im.hua.diycode.util.ImageViewLoader;
-import im.hua.diycode.util.MessageShowTimeUtil;
+import im.hua.diycode.util.ShowTimeFormatter;
 
 public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemViewHolder> {
     private List<TopicEntity> mTopics;
@@ -45,7 +45,7 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
         ImageViewLoader.loadUrl(holder.itemView.getContext(), topic.getUser().getAvatar_url(), holder.mTopicUserHeader, ImageViewLoader.NO_PLACE_HOLDER, ImageViewLoader.Shape.DEFAULT);
 
         //2016-12-10T01:53:12.465+08:00
-        holder.mTopicTime.setText(MessageShowTimeUtil.getFormatTime(topic));
+        holder.mTopicTime.setText(ShowTimeFormatter.getFormatTime(topic));
     }
 
     @Override

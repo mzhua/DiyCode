@@ -29,6 +29,10 @@ public class ImageViewLoader {
         int CIRCLE = 1;
     }
 
+    public static void loadUrl(Context context, String imageUrl, ImageView target) {
+        loadUrl(context, imageUrl, target, NO_PLACE_HOLDER, DEFAULT);
+    }
+
     public static void loadUrl(Context context, String imageUrl, ImageView target, int resId, @Shape int shape) {
         if (null == context || null == target || TextUtils.isEmpty(imageUrl)) {
             return;

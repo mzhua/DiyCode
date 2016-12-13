@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="reply"
+            type="im.hua.diycode.network.entity.TopicReplyEntity"/>
+
+        <variable
+            name="handler"
+            type="im.hua.diycode.ui.home.topic.detail.TopicReplyActivity"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="@{(view) -> handler.onItemClick(view,reply)}"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <ImageView
+            android:id="@+id/topic_reply_user_header"
+            android:layout_width="@dimen/iv_list_user_header"
+            android:layout_height="@dimen/iv_list_user_header"
+            android:layout_gravity="top"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/topic_reply_fav"
+            android:layout_width="25dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/topic_reply_user_header"
+            android:layout_marginLeft="18dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:onClick="@{(view) -> handler.onFavClick(view,reply)}"
+            android:padding="5dp"
+            android:src="@drawable/ic_favorite_grey"/>
+
+        <ImageView
+            android:id="@+id/topic_reply_praise"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignTop="@+id/topic_reply_user_header"
+            android:layout_toLeftOf="@id/topic_reply_fav"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:onClick="@{(view) -> handler.onPraiseClick(view,reply)}"
+            android:padding="5dp"
+            android:src="@drawable/ic_praise_grey"/>
+
+        <TextView
+            android:id="@+id/topic_reply_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/topic_reply_user_header"
+            android:layout_marginLeft="@dimen/element_margin_left"
+            android:layout_toLeftOf="@id/topic_praise"
+            android:layout_toRightOf="@+id/topic_reply_user_header"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="@{reply.user.name}"
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/text_normal"/>
+
+
+        <TextView
+            android:id="@+id/topic_reply_node_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/topic_reply_user_name"
+            android:layout_below="@+id/topic_reply_user_name"
+            android:layout_marginTop="@dimen/element_margin_top"
+            android:maxLines="1"
+            android:text="1楼"
+            android:textColor="@color/textSecondary"
+            android:textSize="@dimen/text_middle"/>
+
+        <TextView
+            android:id="@+id/topic_reply_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/topic_node_name"
+            android:layout_alignTop="@id/topic_reply_node_name"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@id/topic_reply_node_name"
+            android:gravity="center"
+            android:text="·"
+            android:textColor="@color/textSecondary"
+            android:textSize="@dimen/text_middle"/>
+
+        <TextView
+            android:id="@+id/topic_reply_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/topic_reply_node_name"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@+id/topic_reply_dot"
+            android:gravity="end"
+            android:maxLines="1"
+            android:textColor="@color/textSecondary"
+            android:textSize="@dimen/text_middle"/>
+
+        <TextView
+            android:id="@+id/topic_reply_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/topic_reply_node_name"
+            android:layout_below="@id/topic_reply_node_name"
+            android:layout_marginTop="@dimen/element_margin_top"
+            android:layout_toLeftOf="@id/topic_pic"
+            android:maxLines="4"
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/text_large"/>
+
+    </RelativeLayout>
+</layout>

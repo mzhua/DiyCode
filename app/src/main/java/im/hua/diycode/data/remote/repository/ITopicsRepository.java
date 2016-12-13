@@ -1,9 +1,10 @@
-package im.hua.diycode.ui.home.topic;
+package im.hua.diycode.data.remote.repository;
 
 import java.util.List;
 
 import im.hua.diycode.network.entity.OkEntity;
 import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.network.entity.TopicReplyEntity;
 import rx.Observable;
 
 /**
@@ -39,4 +40,12 @@ public interface ITopicsRepository {
      * @return
      */
     Observable<OkEntity> followTopic(String topicId,boolean follow);
+
+    /**
+     * 获取话题评论列表
+     * @param topicId
+     * @param offset
+     * @return
+     */
+    Observable<List<TopicReplyEntity>> getRepliesOfTopic(String topicId, int offset);
 }

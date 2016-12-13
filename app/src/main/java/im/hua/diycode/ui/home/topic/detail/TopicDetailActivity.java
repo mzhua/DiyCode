@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -33,7 +32,7 @@ import im.hua.diycode.network.entity.TopicEntity;
 import im.hua.diycode.util.DrawTextUtil;
 import im.hua.diycode.util.FileUtil;
 import im.hua.diycode.util.ImageViewLoader;
-import im.hua.diycode.util.MessageShowTimeUtil;
+import im.hua.diycode.util.ShowTimeFormatter;
 import im.hua.diycode.widget.MarkdownView;
 import im.hua.mvp.framework.MVPActivity;
 
@@ -104,8 +103,10 @@ public class TopicDetailActivity extends MVPActivity<TopicDetailView, TopicDetai
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(TopicDetailActivity.this, TopicReplyActivity.class);
+                intent.putExtra(TopicReplyActivity.EXTRA_KEY_TOPIC_ID, mTopic.getId());
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.y_no_move);
             }
         });
 
@@ -116,7 +117,7 @@ public class TopicDetailActivity extends MVPActivity<TopicDetailView, TopicDetai
             mTopicDetailTitle.setText(mTopic.getTitle());
             mTopicDetailName.setText(mTopic.getUser().getName());
             mTopicDetailNodeName.setText(mTopic.getNode_name());
-            mTopicDetailTime.setText(MessageShowTimeUtil.getFormatTime(mTopic));
+            mTopicDetailTime.setText(ShowTimeFormatter.getFormatTime(mTopic));
             ImageViewLoader.loadUrl(this, mTopic.getUser().getAvatar_url(), mTopicDetailHead, ImageViewLoader.NO_PLACE_HOLDER, ImageViewLoader.Shape.CIRCLE);
             getPresenter().getTopicsDetail(mTopic.getId());
         }

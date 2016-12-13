@@ -1,6 +1,8 @@
 package im.hua.diycode.network.api;
 
 import retrofit2.Response;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -74,7 +76,17 @@ public interface TopicAPI {
      * @return
      */
     @GET("api/v3/topics/{topicId}/replies.json")
-    Observable<Response<String>> getTopicsReplies(@Path("topicId") String topicId);
+    Observable<Response<String>> getTopicsReplies(@Path("topicId") String topicId, @Query("offset") Integer offset, @Query("limit") Integer limit);
+
+    /**
+     * 回帖
+     * @param topicId
+     * @param body
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/v3/topics/{topicId}/replies.json")
+    Observable<Response<String>> replyTopic(@Path("topicId") String topicId, @Field("body") String body);
 
     /**
      * 获取当前登录用户的收藏

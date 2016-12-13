@@ -152,7 +152,7 @@ public class LoginActivity extends BaseActivity {
                             mRealm.beginTransaction();
                             mRealm.copyToRealm(tokenEntity);
                         } catch (IllegalArgumentException e) {
-                            Log.d("LoginActivity", e.getMessage());
+                            Log.e("LoginActivity", e.getMessage());
                         } finally {
                             mRealm.commitTransaction();
                         }

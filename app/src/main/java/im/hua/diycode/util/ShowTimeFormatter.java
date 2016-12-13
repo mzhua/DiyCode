@@ -1,5 +1,6 @@
 package im.hua.diycode.util;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.text.ParseException;
@@ -15,7 +16,7 @@ import im.hua.diycode.network.entity.TopicEntity;
  * Created by hua on 2016/12/10.
  */
 
-public class MessageShowTimeUtil {
+public class ShowTimeFormatter {
     private static SimpleDateFormat ymdFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINESE);
     private static SimpleDateFormat ymdhFormat = new SimpleDateFormat("yyyy-MM-dd HH", Locale.CHINESE);
     private static SimpleDateFormat mdFormat = new SimpleDateFormat("MM-dd", Locale.CHINESE);
@@ -24,18 +25,28 @@ public class MessageShowTimeUtil {
 
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.CHINESE);
 
-    public static String getFormatTime(TopicEntity topic) {
+    public static String getFormatTime(@NonNull TopicEntity topic) {
         try {
             String replied_at = topic.getReplied_at();
             Date updateDate = simpleDateFormat.parse(TextUtils.isEmpty(replied_at) ? topic.getUpdated_at() : replied_at);
-            return MessageShowTimeUtil.getFormatTime(updateDate);
+            return ShowTimeFormatter.getFormatTime(updateDate);
         } catch (ParseException e) {
             e.printStackTrace();
             return "";
         }
     }
 
-    public static String getFormatTime(Date date) {
+    public static String getFormatTime(@NonNull String primaryTime,@NonNull String secondaryTime) {
+        try {
+            Date updateDate = simpleDateFormat.parse(TextUtils.isEmpty(primaryTime) ? secondaryTime : primaryTime);
+            return ShowTimeFormatter.getFormatTime(updateDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static String getFormatTime(@NonNull Date date) {
         if (isTheSameDay(date)) {
             if (isTheSameHour(date)) {
                 return getIntervalTime(date, Calendar.getInstance().getTime(), TimeUnit.MINUTES) + "分钟前";
