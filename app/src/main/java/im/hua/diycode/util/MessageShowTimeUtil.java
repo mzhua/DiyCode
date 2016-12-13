@@ -1,10 +1,15 @@
 package im.hua.diycode.util;
 
+import android.text.TextUtils;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+
+import im.hua.diycode.network.entity.TopicEntity;
 
 /**
  * Created by hua on 2016/12/10.
@@ -17,10 +22,23 @@ public class MessageShowTimeUtil {
     private static SimpleDateFormat hmFormat = new SimpleDateFormat("HH:mm", Locale.CHINESE);
     private static SimpleDateFormat mFormat = new SimpleDateFormat("mm", Locale.CHINESE);
 
+    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.CHINESE);
+
+    public static String getFormatTime(TopicEntity topic) {
+        try {
+            String replied_at = topic.getReplied_at();
+            Date updateDate = simpleDateFormat.parse(TextUtils.isEmpty(replied_at) ? topic.getUpdated_at() : replied_at);
+            return MessageShowTimeUtil.getFormatTime(updateDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     public static String getFormatTime(Date date) {
         if (isTheSameDay(date)) {
             if (isTheSameHour(date)) {
-                return getIntervalTime(date,Calendar.getInstance().getTime(),TimeUnit.MINUTES) + "分钟前";
+                return getIntervalTime(date, Calendar.getInstance().getTime(), TimeUnit.MINUTES) + "分钟前";
             } else {
                 return hmFormat.format(date);
             }

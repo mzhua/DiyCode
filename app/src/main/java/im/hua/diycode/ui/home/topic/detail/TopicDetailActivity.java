@@ -2,16 +2,22 @@ package im.hua.diycode.ui.home.topic.detail;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -24,8 +30,10 @@ import im.hua.diycode.R;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerTopicsComponent;
 import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.util.DrawTextUtil;
 import im.hua.diycode.util.FileUtil;
 import im.hua.diycode.util.ImageViewLoader;
+import im.hua.diycode.util.MessageShowTimeUtil;
 import im.hua.diycode.widget.MarkdownView;
 import im.hua.mvp.framework.MVPActivity;
 
@@ -41,6 +49,20 @@ public class TopicDetailActivity extends MVPActivity<TopicDetailView, TopicDetai
     MarkdownView mTopicDetailContent;
     @BindView(R.id.topic_detail_title)
     TextView mTopicDetailTitle;
+    @BindView(R.id.topic_detail_half_background)
+    LinearLayout mTopicDetailHalfBackground;
+    @BindView(R.id.topic_detail_head)
+    ImageView mTopicDetailHead;
+    @BindView(R.id.topic_detail_name)
+    TextView mTopicDetailName;
+    @BindView(R.id.topic_detail_node_name)
+    TextView mTopicDetailNodeName;
+    @BindView(R.id.topic_detail_time)
+    TextView mTopicDetailTime;
+    @BindView(R.id.refresh)
+    SwipeRefreshLayout mRefresh;
+
+    private TopicEntity mTopic;
 
     private TopicDetailPresenter mTopicDetailPresenter;
 
@@ -58,8 +80,21 @@ public class TopicDetailActivity extends MVPActivity<TopicDetailView, TopicDetai
         super.onCreate(savedInstanceState);
         setContentView(R.layout.topic_detail_activity);
         ButterKnife.bind(this);
-
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (null != mTopic) {
+                    getPresenter().getTopicsDetail(mTopic.getId());
+                }
+            }
+        });
 
         WebSettings settings = mTopicDetailContent.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -77,12 +112,13 @@ public class TopicDetailActivity extends MVPActivity<TopicDetailView, TopicDetai
 
         Intent intent = getIntent();
         if (null != intent) {
-            TopicEntity topic = intent.getParcelableExtra("topic");
-            mTopicDetailTitle.setText(topic.getTitle());
-//            Glide.with(this)
-//                    .load(topic.getUser().getAvatar_url())
-//                    .into(mTopicDetailHead);
-            getPresenter().getTopicsDetail(topic.getId());
+            mTopic = intent.getParcelableExtra("topic");
+            mTopicDetailTitle.setText(mTopic.getTitle());
+            mTopicDetailName.setText(mTopic.getUser().getName());
+            mTopicDetailNodeName.setText(mTopic.getNode_name());
+            mTopicDetailTime.setText(MessageShowTimeUtil.getFormatTime(mTopic));
+            ImageViewLoader.loadUrl(this, mTopic.getUser().getAvatar_url(), mTopicDetailHead, ImageViewLoader.NO_PLACE_HOLDER, ImageViewLoader.Shape.CIRCLE);
+            getPresenter().getTopicsDetail(mTopic.getId());
         }
     }
 
@@ -123,17 +159,40 @@ public class TopicDetailActivity extends MVPActivity<TopicDetailView, TopicDetai
                 contentView.buildDrawingCache();
 
                 Bitmap bm = contentView.getDrawingCache();
-                FileOutputStream outputStream;
+                Bitmap bmp = null;
                 try {
+
+                    bmp = bm.copy(Bitmap.Config.ARGB_8888, true);
+                    Canvas c = new Canvas(bmp);
+                    String text = "share by Diycode Android";
+                    Paint p = new Paint();
+                    p.setTypeface(Typeface.DEFAULT_BOLD);
+                    p.setTextSize(35);
+                    p.setColor(getResources().getColor(R.color.colorAccent));
+                    int width = (int) p.measureText(text);
+                    int yPos = (int) (c.getHeight()
+                            - DrawTextUtil.getTextHeight(text, p) - 10);
+                    c.drawText(text, bmp.getWidth() - width - 10, yPos, p);
+
+                    FileOutputStream outputStream;
                     File file = FileUtil.createTempFile(TopicDetailActivity.this, "share.jpg");
                     if (file != null) {
                         outputStream = new FileOutputStream(file);
-                        bm.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                        bmp.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                         shareImage(Uri.parse("file:///" + file.getAbsolutePath()));
                     }
                 } catch (IOException | NullPointerException e) {
                     e.printStackTrace();
                     showShortToast("分享失败");
+                } finally {
+                    if (null != bm) {
+                        bm.recycle();
+                        bm = null;
+                    }
+                    if (null != bmp) {
+                        bmp.recycle();
+                        bmp = null;
+                    }
                 }
             }
         });
@@ -149,17 +208,17 @@ public class TopicDetailActivity extends MVPActivity<TopicDetailView, TopicDetai
 
     @Override
     public void showLoadingView(String message) {
-
+        setRefresh(true,mRefresh);
     }
 
     @Override
     public void hideLoadingView(String message) {
-
+        setRefresh(false,mRefresh);
     }
 
     @Override
     public void showErrorMessage(@NonNull String message) {
-
+        setRefresh(false,mRefresh);
     }
 
     @Override
@@ -167,7 +226,7 @@ public class TopicDetailActivity extends MVPActivity<TopicDetailView, TopicDetai
         mTopicDetailTitle.setText(topic.getTitle());
         ImageViewLoader.loadUrl(this, topic.getUser().getAvatar_url(), null, ImageViewLoader.NO_PLACE_HOLDER, ImageViewLoader.Shape.CIRCLE);
 //        Glide.with(this)
-//                .load(topic.getUser().getAvatar_url())
+//                .load(mTopic.getUser().getAvatar_url())
 //                .into(mTopicDetailHead);
         mTopicDetailContent.setMarkDownText(topic.getBody());
 //        mTopicDetailContent.loadData(body_html, "text/html; charset=UTF-8;", null);

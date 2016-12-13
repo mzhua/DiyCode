@@ -12,13 +12,14 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|snap|enterAlways"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/topic_detail"/>
@@ -32,10 +33,9 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:fabSize="normal"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_mode_comment_black_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -6,18 +6,13 @@ package im.hua.diycode.ui.home.topic;
 
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,14 +45,7 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
         ImageViewLoader.loadUrl(holder.itemView.getContext(), topic.getUser().getAvatar_url(), holder.mTopicUserHeader, ImageViewLoader.NO_PLACE_HOLDER, ImageViewLoader.Shape.DEFAULT);
 
         //2016-12-10T01:53:12.465+08:00
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.CHINESE);
-        try {
-            String replied_at = topic.getReplied_at();
-            Date updateDate = simpleDateFormat.parse(TextUtils.isEmpty(replied_at) ? topic.getUpdated_at() : replied_at);
-            holder.mTopicTime.setText(MessageShowTimeUtil.getFormatTime(updateDate));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        holder.mTopicTime.setText(MessageShowTimeUtil.getFormatTime(topic));
     }
 
     @Override

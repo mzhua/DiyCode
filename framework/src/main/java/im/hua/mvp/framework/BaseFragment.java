@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -72,6 +73,18 @@ public class BaseFragment extends Fragment {
         if (null != mDialog && mDialog.isShowing()) {
             mDialog.dismiss();
         }
+    }
+
+    public void setRefresh(final boolean refreshing, final SwipeRefreshLayout refreshLayout){
+        if (null == refreshLayout) {
+            return;
+        }
+        refreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(refreshing);
+            }
+        });
     }
 
     /**
