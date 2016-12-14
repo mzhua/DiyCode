@@ -30,7 +30,7 @@ task clean(type: Delete) {
 rootProject.ext {
 
     // App dependencies
-    supportLibraryVersion = '25.0.1'
+    supportLibraryVersion = '25.1.0'
     junitVersion = '4.12'
     mockitoVersion = '1.10.19'
     dagger = '2.7'
