@@ -1,5 +1,6 @@
 package im.hua.diycode;
 
+import im.fir.sdk.FIR;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerApplicationComponent;
 import im.hua.diycode.di.module.ApplicationModule;
@@ -22,6 +23,13 @@ public class DCApplication extends FApplication<ApplicationComponent> {
     @Override
     public void onCreate() {
         super.onCreate();
+        FIR.init(this);
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            // This process is dedicated to LeakCanary for heap analysis.
+//            // You should not init your app in this process.
+//            return;
+//        }
+//        LeakCanary.install(this);
         Realm.init(this);
         initInjector();
     }

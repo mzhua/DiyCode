@@ -1,9 +1,13 @@
 package im.hua.diycode.ui.home.topic.detail;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +15,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import im.hua.diycode.Constants;
 import im.hua.diycode.R;
 import im.hua.diycode.databinding.TopicReplyListItemBinding;
 import im.hua.diycode.network.entity.TopicReplyEntity;
@@ -45,11 +50,33 @@ public class TopicReplyRVAdapter extends SimpleRVAdapter<TopicReplyEntity, Topic
     }
 
     @Override
-    public void bindView(ItemViewHolder holder, TopicReplyEntity data) {
+    public void bindView(final ItemViewHolder holder, TopicReplyEntity data) {
         holder.mItemBinding.setReply(data);
         holder.mItemBinding.setHandler(mTopicReplyActivity);
         holder.mTopicReplyTime.setText(ShowTimeFormatter.getFormatTime(data.getUpdated_at(), ""));
-        holder.mTopicReplyTitle.setText(Html.fromHtml(data.getBody_html()));
+        holder.mTopicReplyTitle.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return super.shouldOverrideUrlLoading(view, request);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.startsWith("#")) {
+
+                    return true;
+                } else if (url.startsWith("/")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL + url));
+                    holder.itemView.getContext().startActivity(intent);
+                    return true;
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    holder.itemView.getContext().startActivity(intent);
+                    return true;
+                }
+            }
+        });
+        holder.mTopicReplyTitle.loadDataWithBaseURL(Constants.BASE_URL,data.getBody_html(), "text/html; charset=UTF-8;","UTF-8",null);
         ImageViewLoader.loadUrl(holder.itemView.getContext(), data.getUser().getAvatar_url(), holder.mTopicReplyUserHeader);
     }
 
@@ -69,7 +96,7 @@ public class TopicReplyRVAdapter extends SimpleRVAdapter<TopicReplyEntity, Topic
         @BindView(R.id.topic_reply_time)
         TextView mTopicReplyTime;
         @BindView(R.id.topic_reply_title)
-        TextView mTopicReplyTitle;
+        WebView mTopicReplyTitle;
 
         public ItemViewHolder(View itemView) {
             super(itemView);

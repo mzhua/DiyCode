@@ -17,8 +17,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -28,6 +26,7 @@ import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerHomeComponent;
 import im.hua.diycode.network.entity.UserEntity;
 import im.hua.diycode.ui.login.LoginActivity;
+import im.hua.diycode.util.ImageViewLoader;
 import im.hua.mvp.framework.BaseActivity;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -110,7 +109,6 @@ public class HomeActivity extends BaseActivity
         mRealm.where(UserEntity.class)
                 .findAllAsync()
                 .asObservable()
-                .first()
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(new Func1<RealmResults<UserEntity>, Observable<UserEntity>>() {
                     @Override
@@ -118,6 +116,7 @@ public class HomeActivity extends BaseActivity
                         return Observable.from(userEntities);
                     }
                 })
+                .first()
                 .subscribe(new Subscriber<UserEntity>() {
                     @Override
                     public void onCompleted() {
@@ -132,9 +131,7 @@ public class HomeActivity extends BaseActivity
                     @Override
                     public void onNext(UserEntity userEntity) {
                         mTvUserName.setText(userEntity.getName());
-                        Glide.with(HomeActivity.this)
-                                .load(userEntity.getAvatar_url())
-                                .into(mIvUserHead);
+                        ImageViewLoader.loadUrl(HomeActivity.this,userEntity.getAvatar_url(),mIvUserHead);
                     }
                 });
     }

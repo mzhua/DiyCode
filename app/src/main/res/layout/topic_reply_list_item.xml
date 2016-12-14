@@ -107,7 +107,7 @@
             android:textColor="@color/textSecondary"
             android:textSize="@dimen/text_middle"/>
 
-        <TextView
+        <WebView
             android:id="@+id/topic_reply_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -115,7 +115,6 @@
             android:layout_below="@id/topic_reply_node_name"
             android:layout_marginTop="@dimen/element_margin_top"
             android:layout_toLeftOf="@id/topic_pic"
-            android:maxLines="4"
             android:textColor="@color/textPrimary"
             android:textSize="@dimen/text_large"/>
 

@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import im.hua.diycode.Constants;
 import im.hua.diycode.network.entity.TokenEntity;
 import im.hua.diycode.network.util.stringconverter.StringConverterFactory;
 import im.hua.mvp.framework.BuildConfig;
@@ -52,7 +53,7 @@ public class ApplicationModule {
             builder.addInterceptor(logging);
         }
 
-        return new Retrofit.Builder().baseUrl("http://www.diycode.cc/")
+        return new Retrofit.Builder().baseUrl(Constants.BASE_URL)
 //                .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(StringConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//必须加上
@@ -72,7 +73,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     TokenEntity provideTokenEntity(Realm realm) {
-        TokenEntity tokenEntity = realm.where(TokenEntity.class).findFirst();
+        TokenEntity tokenEntity = realm.where(TokenEntity.class).findAll().first();
         return null == tokenEntity ? new TokenEntity() : tokenEntity;
     }
 }

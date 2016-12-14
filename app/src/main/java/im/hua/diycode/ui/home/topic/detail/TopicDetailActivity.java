@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -77,6 +79,9 @@ public class TopicDetailActivity extends MVPActivity<TopicDetailView, TopicDetai
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            WebView.enableSlowWholeDocumentDraw();
+        }
         setContentView(R.layout.topic_detail_activity);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
@@ -140,26 +145,61 @@ public class TopicDetailActivity extends MVPActivity<TopicDetailView, TopicDetai
                 startActivity(sendIntent);*/
                 shareContent();
                 break;
+            case R.id.action_share_url:
+                String url = "https://www.diycode.cc/topics/" + mTopic.getId();
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, url);
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+                break;
+            case R.id.action_open_on_browser:
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.diycode.cc/topics/" + mTopic.getId()));
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static Bitmap screenshot(WebView webView, float scale11) {
+        try {
+            float scale = webView.getScale();
+            int height = (int) (webView.getContentHeight() * scale + 0.5);
+            Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            webView.draw(canvas);
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Bitmap screenshot2(WebView webView) {
+        webView.measure(View.MeasureSpec.makeMeasureSpec(
+                View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        webView.layout(0, 0, webView.getMeasuredWidth(), webView.getMeasuredHeight());
+        webView.setDrawingCacheEnabled(true);
+        webView.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(webView.getMeasuredWidth(),
+                webView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+        int iHeight = bitmap.getHeight();
+        canvas.drawBitmap(bitmap, 0, iHeight, paint);
+        webView.draw(canvas);
+        return bitmap;
     }
 
     /**
      * 截屏分享
      */
     private void shareContent() {
-        final View contentView = findViewById(android.R.id.content);
-        if (contentView.getDrawingCache() != null) {
-            contentView.destroyDrawingCache();
-        }
-
-        contentView.post(new Runnable() {
+        mTopicDetailContent.post(new Runnable() {
             @Override
             public void run() {
-                contentView.setDrawingCacheEnabled(true);
-                contentView.buildDrawingCache();
-
-                Bitmap bm = contentView.getDrawingCache();
+                Bitmap bm = screenshot2(mTopicDetailContent);
                 Bitmap bmp = null;
                 try {
 
@@ -209,26 +249,23 @@ public class TopicDetailActivity extends MVPActivity<TopicDetailView, TopicDetai
 
     @Override
     public void showLoadingView(String message) {
-        setRefresh(true,mRefresh);
+        setRefresh(true, mRefresh);
     }
 
     @Override
     public void hideLoadingView(String message) {
-        setRefresh(false,mRefresh);
+        setRefresh(false, mRefresh);
     }
 
     @Override
     public void showErrorMessage(@NonNull String message) {
-        setRefresh(false,mRefresh);
+        setRefresh(false, mRefresh);
     }
 
     @Override
     public void showTopicDetailInfo(TopicEntity topic) {
         mTopicDetailTitle.setText(topic.getTitle());
         ImageViewLoader.loadUrl(this, topic.getUser().getAvatar_url(), null, ImageViewLoader.NO_PLACE_HOLDER, ImageViewLoader.Shape.CIRCLE);
-//        Glide.with(this)
-//                .load(mTopic.getUser().getAvatar_url())
-//                .into(mTopicDetailHead);
         mTopicDetailContent.setMarkDownText(topic.getBody());
 //        mTopicDetailContent.loadData(body_html, "text/html; charset=UTF-8;", null);
     }
