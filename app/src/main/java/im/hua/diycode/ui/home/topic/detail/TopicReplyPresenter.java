@@ -6,14 +6,14 @@ import javax.inject.Inject;
 
 import im.hua.diycode.data.remote.repository.ITopicsRepository;
 import im.hua.diycode.network.entity.TopicReplyEntity;
-import im.hua.mvp.framework.MVPPresenter;
+import im.hua.mvp.framework.MVPListPresenter;
 import rx.Subscriber;
 
 /**
  * Created by hua on 2016/12/13.
  */
 
-public class TopicReplyPresenter extends MVPPresenter<TopicReplyView> {
+public class TopicReplyPresenter extends MVPListPresenter<TopicReplyView> {
     private ITopicsRepository mTopicsRepository;
 
     @Inject
@@ -21,9 +21,9 @@ public class TopicReplyPresenter extends MVPPresenter<TopicReplyView> {
         mTopicsRepository = topicsRepository;
     }
 
-    public void getRepliesOfTopic(String topicId, int offset) {
+    public void getRepliesOfTopic(String topicId, final int offset) {
         getView().showLoadingView("");
-        this.mTopicsRepository.getRepliesOfTopic(topicId, offset)
+        addSubscription(this.mTopicsRepository.getRepliesOfTopic(topicId, offset)
                 .subscribe(new Subscriber<List<TopicReplyEntity>>() {
                     @Override
                     public void onCompleted() {
@@ -38,8 +38,12 @@ public class TopicReplyPresenter extends MVPPresenter<TopicReplyView> {
                     @Override
                     public void onNext(List<TopicReplyEntity> topicReplyEntities) {
                         getView().hideLoadingView("");
-                        getView().showTopicReplies(topicReplyEntities);
+                        if (isLoadingMore(offset)) {
+                            getView().appendDatas(topicReplyEntities);
+                        } else {
+                            getView().showDatas(topicReplyEntities);
+                        }
                     }
-                });
+                }));
     }
 }

@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -33,7 +32,6 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
     RecyclerView mRecyclerView;
     @BindView(R.id.refresh)
     SwipeRefreshLayout mRefresh;
-    private TextView mLoadMoreView;
 
     private TopicsPresenter mTopicsPresenter;
 
@@ -80,28 +78,28 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-        mLoadMoreView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.load_more, mRecyclerView, false);
+
+        initAdapter();
         getPresenter().getTopics(0);
     }
 
     @Override
-    public void showTopics(List<TopicEntity> topics) {
-        initAdapter();
+    public void showDatas(List<TopicEntity> topics) {
         mTopicsRVAdapter.setTopics(topics);
     }
+
+    private LoadMoreWrapper mLoadMoreWrapper;
 
     private void initAdapter() {
         if (null == mTopicsRVAdapter) {
             mTopicsRVAdapter = new TopicsRVAdapter(this);
-            LoadMoreWrapper wrapper = new LoadMoreWrapper(mTopicsRVAdapter);
-            wrapper.setLoadMoreView(mLoadMoreView);
-            wrapper.setOnLoadMoreListener(new LoadMoreWrapper.OnLoadMoreListener() {
+            mLoadMoreWrapper = new LoadMoreWrapper(getActivity(), mRecyclerView, mTopicsRVAdapter);
+            mLoadMoreWrapper.setOnLoadMoreListener(new LoadMoreWrapper.OnLoadMoreListener() {
                 @Override
                 public void onLoadMoreRequested() {
                     getPresenter().getTopics(mTopicsRVAdapter == null ? 0 : mTopicsRVAdapter.getItemCount());
                 }
             });
-            mRecyclerView.setAdapter(wrapper);
         }
     }
 
@@ -112,24 +110,21 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
     }
 
     public void onFavClick(View view, TopicEntity entity) {
-//        Toast.makeText(view.getContext(), entity.getNode_name(), Toast.LENGTH_SHORT).show();
         getPresenter().favTopic(entity.getId(), true);
     }
 
     public void onPraiseClick(View view, TopicEntity entity) {
-//        Toast.makeText(view.getContext(), entity.getNode_name(), Toast.LENGTH_SHORT).show();
         getPresenter().followTopic(entity.getId(), true);
     }
 
     @Override
-    public void appendTopics(List<TopicEntity> topics) {
-        initAdapter();
+    public void appendDatas(List<TopicEntity> topics) {
         mTopicsRVAdapter.appendTopics(topics);
     }
 
     @Override
     public void noMoreData() {
-        mLoadMoreView.setText(getActivity().getResources().getText(R.string.load_more_no_more));
+        mLoadMoreWrapper.reachEnd();
     }
 
     @Override
@@ -167,7 +162,7 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
 
     @Override
     public void showLoadingView(String message) {
-        mLoadMoreView.setText(getActivity().getResources().getText(R.string.load_more_loading));
+        mLoadMoreWrapper.loadingMore();
         mRefresh.post(new Runnable() {
             @Override
             public void run() {

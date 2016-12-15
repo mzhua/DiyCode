@@ -20,6 +20,7 @@ import im.hua.diycode.R;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerTopicsComponent;
 import im.hua.diycode.network.entity.TopicReplyEntity;
+import im.hua.diycode.widget.rvwrapper.LoadMoreWrapper;
 import im.hua.mvp.framework.MVPActivity;
 
 public class TopicReplyActivity extends MVPActivity<TopicReplyView, TopicReplyPresenter> implements TopicReplyView{
@@ -35,9 +36,9 @@ public class TopicReplyActivity extends MVPActivity<TopicReplyView, TopicReplyPr
     ImageView mTopicSend;
 
     private TopicReplyRVAdapter mReplyRVAdapter;
+    private LoadMoreWrapper mLoadMoreWrapper;
 
     private TopicReplyPresenter mTopicReplyPresenter;
-
     private String mTopicId = "";
 
     @Override
@@ -57,15 +58,6 @@ public class TopicReplyActivity extends MVPActivity<TopicReplyView, TopicReplyPr
         setContentView(R.layout.topic_detail_reply_activity);
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-        if (null != intent) {
-            mTopicId = intent.getStringExtra(EXTRA_KEY_TOPIC_ID);
-            getPresenter().getRepliesOfTopic(mTopicId, 0);
-        } else {
-            showShortToast("Topic Id无效");
-            finishWithAnimation();
-        }
-
         setSupportActionBar(mToolbar);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
@@ -78,6 +70,30 @@ public class TopicReplyActivity extends MVPActivity<TopicReplyView, TopicReplyPr
                 finishWithAnimation();
             }
         });
+
+        initAdapter();
+
+        Intent intent = getIntent();
+        if (null != intent) {
+            mTopicId = intent.getStringExtra(EXTRA_KEY_TOPIC_ID);
+            getPresenter().getRepliesOfTopic(mTopicId, 0);
+        } else {
+            showShortToast("Topic Id无效");
+            finishWithAnimation();
+        }
+    }
+
+    private void initAdapter() {
+        if (null == mReplyRVAdapter) {
+            mReplyRVAdapter = new TopicReplyRVAdapter(this);
+            mLoadMoreWrapper = new LoadMoreWrapper(this, mRecyclerView, mReplyRVAdapter);
+            mLoadMoreWrapper.setOnLoadMoreListener(new LoadMoreWrapper.OnLoadMoreListener() {
+                @Override
+                public void onLoadMoreRequested() {
+                    getPresenter().getRepliesOfTopic(mTopicId,mReplyRVAdapter.getItemCount());
+                }
+            });
+        }
     }
 
     public void onItemClick(View view, TopicReplyEntity entity) {
@@ -112,16 +128,24 @@ public class TopicReplyActivity extends MVPActivity<TopicReplyView, TopicReplyPr
 
     @Override
     public void showErrorMessage(@NonNull String message) {
-
+        showShortToast(message);
     }
 
     @Override
-    public void showTopicReplies(List<TopicReplyEntity> entity) {
-        if (null == mReplyRVAdapter) {
-            mReplyRVAdapter = new TopicReplyRVAdapter(this);
-            mRecyclerView.setAdapter(mReplyRVAdapter);
-        }
-        mReplyRVAdapter.setDatas(entity);
+    public void showDatas(List<TopicReplyEntity> datas) {
+        mLoadMoreWrapper.loadingMore();
+        mReplyRVAdapter.setDatas(datas);
+    }
+
+
+    @Override
+    public void appendDatas(List datas) {
+        mReplyRVAdapter.appendTopics(datas);
+    }
+
+    @Override
+    public void noMoreData() {
+        mLoadMoreWrapper.reachEnd();
     }
 
     @Override
