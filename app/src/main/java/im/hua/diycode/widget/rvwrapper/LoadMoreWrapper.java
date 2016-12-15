@@ -20,13 +20,15 @@ public class LoadMoreWrapper<T> extends RecyclerView.Adapter<RecyclerView.ViewHo
     private RecyclerView.Adapter mInnerAdapter;
     private TextView mLoadMoreView;
     private int mLoadMoreLayoutId;
-    private Context mContext;
+    private RecyclerView mRecyclerView;
+    private final RecyclerView.LayoutManager mLayoutManager;
 
     public LoadMoreWrapper(Context context, RecyclerView recyclerView, RecyclerView.Adapter adapter) {
-        mContext = context;
+        mRecyclerView = recyclerView;
         setLoadMoreView((TextView) LayoutInflater.from(context).inflate(R.layout.load_more, recyclerView, false));
         mInnerAdapter = adapter;
         recyclerView.setAdapter(this);
+        mLayoutManager = mRecyclerView.getLayoutManager();
     }
 
     private boolean hasLoadMore() {
@@ -63,7 +65,7 @@ public class LoadMoreWrapper<T> extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (isShowLoadMore(position)) {
-            if (mOnLoadMoreListener != null) {
+            if (mOnLoadMoreListener != null && null!=mLayoutManager && mLayoutManager.getChildCount() < mInnerAdapter.getItemCount()) {
                 mOnLoadMoreListener.onLoadMoreRequested();
             }
             return;

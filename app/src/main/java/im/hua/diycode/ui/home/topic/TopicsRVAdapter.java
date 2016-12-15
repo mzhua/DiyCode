@@ -50,7 +50,7 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
 
     @Override
     public int getItemCount() {
-        return mTopics == null ? 0 : 3;
+        return mTopics == null ? 0 : mTopics.size();
     }
 
     public void setTopics(List<TopicEntity> topics) {
