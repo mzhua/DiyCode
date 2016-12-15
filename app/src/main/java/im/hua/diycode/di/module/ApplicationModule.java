@@ -9,8 +9,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import im.hua.diycode.Constants;
-import im.hua.diycode.network.entity.TokenEntity;
 import im.hua.diycode.network.util.stringconverter.StringConverterFactory;
+import im.hua.diycode.util.AuthUtil;
 import im.hua.mvp.framework.BuildConfig;
 import im.hua.mvp.framework.FApplication;
 import io.realm.Realm;
@@ -72,8 +72,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    TokenEntity provideTokenEntity(Realm realm) {
-        TokenEntity tokenEntity = realm.where(TokenEntity.class).findAll().first();
-        return null == tokenEntity ? new TokenEntity() : tokenEntity;
+    AuthUtil provideAuthUtil(Realm realm) {
+        return new AuthUtil(realm);
     }
 }

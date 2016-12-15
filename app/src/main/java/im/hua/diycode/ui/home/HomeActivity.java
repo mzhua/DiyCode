@@ -117,6 +117,12 @@ public class HomeActivity extends BaseActivity
                     }
                 })
                 .first()
+                .filter(new Func1<UserEntity, Boolean>() {
+                    @Override
+                    public Boolean call(UserEntity userEntity) {
+                        return userEntity != null;
+                    }
+                })
                 .subscribe(new Subscriber<UserEntity>() {
                     @Override
                     public void onCompleted() {

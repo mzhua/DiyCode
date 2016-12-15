@@ -9,10 +9,10 @@ import javax.inject.Inject;
 import im.hua.diycode.data.remote.repository.ITopicsRepository;
 import im.hua.diycode.network.api.TopicAPI;
 import im.hua.diycode.network.entity.OkEntity;
-import im.hua.diycode.network.entity.TokenEntity;
 import im.hua.diycode.network.entity.TopicEntity;
 import im.hua.diycode.network.entity.TopicReplyEntity;
 import im.hua.diycode.network.util.ResponseCompose;
+import im.hua.diycode.util.AuthUtil;
 import im.hua.diycode.util.GsonConverterUtil;
 import rx.Observable;
 
@@ -23,12 +23,12 @@ import rx.Observable;
 
 public class TopicsRepository implements ITopicsRepository {
     private TopicAPI mTopicAPI;
-    private TokenEntity mTokenEntity;
+    private AuthUtil mAuthUtil;
 
     @Inject
-    public TopicsRepository(TopicAPI topicAPI, TokenEntity tokenEntity) {
+    public TopicsRepository(TopicAPI topicAPI, AuthUtil authUtil) {
         mTopicAPI = topicAPI;
-        mTokenEntity = tokenEntity;
+        mAuthUtil = authUtil;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class TopicsRepository implements ITopicsRepository {
         }
         Observable<OkEntity> fav;
         if (favorite) {
-            fav = mTopicAPI.favTopic(topicId, mTokenEntity.getAccess_token())
+            fav = mTopicAPI.favTopic(topicId, mAuthUtil.getAccessToken())
                     .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<OkEntity>() {
                         @Override
                         public OkEntity convert(String value) {
@@ -68,7 +68,7 @@ public class TopicsRepository implements ITopicsRepository {
                         }
                     }));
         } else {
-            fav = mTopicAPI.unFavTopic(topicId, mTokenEntity.getAccess_token())
+            fav = mTopicAPI.unFavTopic(topicId, mAuthUtil.getAccessToken())
                     .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<OkEntity>() {
                         @Override
                         public OkEntity convert(String value) {
@@ -87,7 +87,7 @@ public class TopicsRepository implements ITopicsRepository {
         }
         Observable<OkEntity> fo;
         if (follow) {
-            fo = mTopicAPI.followTopic(topicId, mTokenEntity.getAccess_token())
+            fo = mTopicAPI.followTopic(topicId, mAuthUtil.getAccessToken())
                     .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<OkEntity>() {
                         @Override
                         public OkEntity convert(String value) {
@@ -95,7 +95,7 @@ public class TopicsRepository implements ITopicsRepository {
                         }
                     }));
         } else {
-            fo = mTopicAPI.unFollowTopic(topicId, mTokenEntity.getAccess_token())
+            fo = mTopicAPI.unFollowTopic(topicId, mAuthUtil.getAccessToken())
                     .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<OkEntity>() {
                         @Override
                         public OkEntity convert(String value) {
@@ -119,6 +119,6 @@ public class TopicsRepository implements ITopicsRepository {
     }
 
     private boolean isTokenInvalid() {
-        return null == mTokenEntity || TextUtils.isEmpty(mTokenEntity.getAccess_token());
+        return TextUtils.isEmpty(mAuthUtil.getAccessToken());
     }
 }
