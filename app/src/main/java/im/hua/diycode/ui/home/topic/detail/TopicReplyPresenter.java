@@ -13,7 +13,7 @@ import rx.Subscriber;
  * Created by hua on 2016/12/13.
  */
 
-public class TopicReplyPresenter extends MVPListPresenter<TopicReplyView> {
+public class TopicReplyPresenter extends MVPListPresenter<TopicReplyView,TopicReplyEntity> {
     private ITopicsRepository mTopicsRepository;
 
     @Inject
@@ -23,7 +23,7 @@ public class TopicReplyPresenter extends MVPListPresenter<TopicReplyView> {
 
     public void getRepliesOfTopic(String topicId, final int offset) {
         getView().showLoadingView("");
-        addSubscription(this.mTopicsRepository.getRepliesOfTopic(topicId, offset)
+        addSubscription(this.mTopicsRepository.getRepliesOfTopic(topicId, offset, 20)
                 .subscribe(new Subscriber<List<TopicReplyEntity>>() {
                     @Override
                     public void onCompleted() {
@@ -37,12 +37,7 @@ public class TopicReplyPresenter extends MVPListPresenter<TopicReplyView> {
 
                     @Override
                     public void onNext(List<TopicReplyEntity> topicReplyEntities) {
-                        getView().hideLoadingView("");
-                        if (isLoadingMore(offset)) {
-                            getView().appendDatas(topicReplyEntities);
-                        } else {
-                            getView().showDatas(topicReplyEntities);
-                        }
+                        resolveNext(topicReplyEntities,offset);
                     }
                 }));
     }

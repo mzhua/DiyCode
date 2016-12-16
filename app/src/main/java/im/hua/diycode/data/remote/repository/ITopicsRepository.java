@@ -16,7 +16,7 @@ public interface ITopicsRepository {
      * 获取首页topics
      * @return
      */
-    Observable<List<TopicEntity>> getTopics(String type,Integer nodeId,int offset);
+    Observable<List<TopicEntity>> getTopics(String type, Integer nodeId, int offset, int pageSize);
 
     /**
      * 获取topic的详细信息
@@ -45,7 +45,8 @@ public interface ITopicsRepository {
      * 获取话题评论列表
      * @param topicId
      * @param offset
+     * @param pageSize
      * @return
      */
-    Observable<List<TopicReplyEntity>> getRepliesOfTopic(String topicId, int offset);
+    Observable<List<TopicReplyEntity>> getRepliesOfTopic(String topicId, int offset, int pageSize);
 }

@@ -32,8 +32,8 @@ public class TopicsRepository implements ITopicsRepository {
     }
 
     @Override
-    public Observable<List<TopicEntity>> getTopics(String type, Integer nodeId, int offset) {
-        return mTopicAPI.getTopics(type, nodeId, offset, 20)
+    public Observable<List<TopicEntity>> getTopics(String type, Integer nodeId, int offset, int pageSize) {
+        return mTopicAPI.getTopics(type, nodeId, offset, pageSize)
                 .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<List<TopicEntity>>() {
                     @Override
                     public List<TopicEntity> convert(String value) {
@@ -108,7 +108,7 @@ public class TopicsRepository implements ITopicsRepository {
     }
 
     @Override
-    public Observable<List<TopicReplyEntity>> getRepliesOfTopic(String topicId, int offset) {
+    public Observable<List<TopicReplyEntity>> getRepliesOfTopic(String topicId, int offset, int pageSize) {
         return this.mTopicAPI.getTopicsReplies(topicId,offset,20)
                 .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<List<TopicReplyEntity>>() {
                     @Override

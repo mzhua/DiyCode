@@ -18,7 +18,7 @@ import rx.Subscriber;
  * Created by hua on 2016/11/17.
  */
 
-public class TopicsPresenter extends MVPListPresenter<TopicsView> {
+public class TopicsPresenter extends MVPListPresenter<TopicsView, TopicEntity> {
 
     private ITopicsRepository mTopicsRepository;
 
@@ -31,11 +31,10 @@ public class TopicsPresenter extends MVPListPresenter<TopicsView> {
         if (!isLoadingMore(offset)) {
             getView().showLoadingView("");
         }
-        addSubscription(this.mTopicsRepository.getTopics(null, null, offset)
+        addSubscription(this.mTopicsRepository.getTopics(null, null, offset, PAGE_SIZE)
                 .subscribe(new Subscriber<List<TopicEntity>>() {
                     @Override
                     public void onCompleted() {
-                        getView().hideLoadingView("");
                     }
 
                     @Override
@@ -50,15 +49,7 @@ public class TopicsPresenter extends MVPListPresenter<TopicsView> {
 
                     @Override
                     public void onNext(List<TopicEntity> topicEntities) {
-                        if (null == topicEntities || topicEntities.size() == 0) {
-                            getView().noMoreData();
-                        } else {
-                            if (isLoadingMore(offset)) {
-                                getView().appendDatas(topicEntities);
-                            } else {
-                                getView().showDatas(topicEntities);
-                            }
-                        }
+                        resolveNext(topicEntities,offset);
                     }
                 }));
     }

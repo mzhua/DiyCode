@@ -27,6 +27,12 @@ public class LoadMoreWrapper<T> extends RecyclerView.Adapter<RecyclerView.ViewHo
         mRecyclerView = recyclerView;
         setLoadMoreView((TextView) LayoutInflater.from(context).inflate(R.layout.load_more, recyclerView, false));
         mInnerAdapter = adapter;
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+            }
+        });
         recyclerView.setAdapter(this);
         mLayoutManager = mRecyclerView.getLayoutManager();
     }
@@ -34,7 +40,6 @@ public class LoadMoreWrapper<T> extends RecyclerView.Adapter<RecyclerView.ViewHo
     private boolean hasLoadMore() {
         return mLoadMoreView != null || mLoadMoreLayoutId != 0;
     }
-
 
     private boolean isShowLoadMore(int position) {
         return hasLoadMore() && (position >= mInnerAdapter.getItemCount());
@@ -65,7 +70,7 @@ public class LoadMoreWrapper<T> extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (isShowLoadMore(position)) {
-            if (mOnLoadMoreListener != null && null!=mLayoutManager && mLayoutManager.getChildCount() < mInnerAdapter.getItemCount()) {
+            if (mOnLoadMoreListener != null && null != mLayoutManager && mLayoutManager.getChildCount() < mInnerAdapter.getItemCount() && mCanLoadMore) {
                 mOnLoadMoreListener.onLoadMoreRequested();
             }
             return;
@@ -89,7 +94,6 @@ public class LoadMoreWrapper<T> extends RecyclerView.Adapter<RecyclerView.ViewHo
         });
     }
 
-
     @Override
     public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
         mInnerAdapter.onViewAttachedToWindow(holder);
@@ -112,7 +116,7 @@ public class LoadMoreWrapper<T> extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return mInnerAdapter.getItemCount() + (hasLoadMore() ? 1 : 0);
+        return mInnerAdapter.getItemCount() + (hasLoadMore() && mInnerAdapter.getItemCount() > 0 ? 1 : 0);
     }
 
     @Override
@@ -144,11 +148,15 @@ public class LoadMoreWrapper<T> extends RecyclerView.Adapter<RecyclerView.ViewHo
         mLoadMoreView = loadMoreView;
     }
 
+    private boolean mCanLoadMore = true;
+
     public void reachEnd() {
+        mCanLoadMore = false;
         mLoadMoreView.setText(R.string.load_more_no_more);
     }
 
     public void loadingMore() {
+        mCanLoadMore = true;
         mLoadMoreView.setText(R.string.load_more_loading);
     }
 }

@@ -11,5 +11,7 @@ public interface IMVPListView<E> extends IMVPView{
 
     void appendDatas(List<E> datas);
 
+    void showLoadingMore();
+
     void noMoreData();
 }

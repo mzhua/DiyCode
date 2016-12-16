@@ -123,6 +123,11 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
     }
 
     @Override
+    public void showLoadingMore() {
+        mLoadMoreWrapper.loadingMore();
+    }
+
+    @Override
     public void noMoreData() {
         mLoadMoreWrapper.reachEnd();
     }
@@ -162,7 +167,6 @@ public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> imp
 
     @Override
     public void showLoadingView(String message) {
-        mLoadMoreWrapper.loadingMore();
         mRefresh.post(new Runnable() {
             @Override
             public void run() {
