@@ -22,6 +22,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
 
 dependencies {
@@ -51,3 +56,5 @@ dependencies {
 
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glide"
 }
+
+apply from: "bintrayUpload.gradle"

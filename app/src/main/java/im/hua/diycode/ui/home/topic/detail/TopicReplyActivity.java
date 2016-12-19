@@ -138,7 +138,7 @@ public class TopicReplyActivity extends MVPActivity<TopicReplyView, TopicReplyPr
 
     @Override
     public void appendDatas(List<TopicReplyEntity> datas) {
-        mReplyRVAdapter.appendTopics(datas);
+        mReplyRVAdapter.appendDatas(datas);
     }
 
     @Override

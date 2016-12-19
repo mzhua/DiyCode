@@ -40,11 +40,11 @@ public abstract class SimpleRVAdapter<Bean, VH extends RecyclerView.ViewHolder> 
         return mDatas == null ? 0 : mDatas.size();
     }
 
-    public void setDatas(List<Bean> topics) {
-        if (null == topics) {
+    public void setDatas(List<Bean> datas) {
+        if (null == datas) {
             return;
         }
-        DiffUtil.Callback diffCallback = getDiffCallback(this.mDatas, topics);
+        DiffUtil.Callback diffCallback = getDiffCallback(this.mDatas, datas);
         if (diffCallback != null) {
             DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback, true);
             diffResult.dispatchUpdatesTo(this);
@@ -53,18 +53,18 @@ public abstract class SimpleRVAdapter<Bean, VH extends RecyclerView.ViewHolder> 
         if (null != mDatas) {
             mDatas.clear();
         }
-        mDatas = topics;
+        mDatas = datas;
         if (diffCallback == null) {
             notifyDataSetChanged();
         }
     }
 
-    public void appendTopics(List<Bean> topics) {
-        if (null == topics) {
+    public void appendDatas(List<Bean> datas) {
+        if (null == datas) {
             return;
         }
-        topics.addAll(0, this.mDatas);
-        DiffUtil.Callback diffCallback = getDiffCallback(this.mDatas, topics);
+        datas.addAll(0, this.mDatas);
+        DiffUtil.Callback diffCallback = getDiffCallback(this.mDatas, datas);
         if (diffCallback != null) {
             DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback, true);
             diffResult.dispatchUpdatesTo(this);
@@ -72,7 +72,7 @@ public abstract class SimpleRVAdapter<Bean, VH extends RecyclerView.ViewHolder> 
         if (null != mDatas) {
             mDatas.clear();
         }
-        mDatas = topics;
+        mDatas = datas;
         if (diffCallback == null) {
             notifyDataSetChanged();
         }
