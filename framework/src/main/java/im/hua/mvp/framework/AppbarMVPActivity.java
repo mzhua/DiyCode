@@ -14,7 +14,7 @@ import android.view.View;
  * Created by hua on 16/10/11.
  */
 
-public abstract class AppbarBaseActivity extends BaseActivity {
+public abstract class AppbarMVPActivity<V extends IMVPView, P extends IMVPPresenter<V>> extends MVPActivity<V,P> {
     @LayoutRes
     public abstract int getContentLayout();
 
@@ -54,7 +54,7 @@ public abstract class AppbarBaseActivity extends BaseActivity {
                 });
             }
         } catch (Exception e) {
-            Log.e("AppbarBaseActivity", e.getMessage());
+            Log.e("AppbarMVPActivity", e.getMessage());
         }
     }
 }
