@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -23,6 +22,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import im.hua.diycode.Constants;
 import im.hua.diycode.R;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerLoginComponent;
@@ -31,9 +31,9 @@ import im.hua.diycode.network.api.UserAPI;
 import im.hua.diycode.network.entity.TokenEntity;
 import im.hua.diycode.network.entity.UserEntity;
 import im.hua.diycode.network.util.ResponseCompose;
+import im.hua.diycode.util.AuthUtil;
 import im.hua.diycode.util.GsonConverterUtil;
 import im.hua.mvp.framework.BaseAppCompatActivity;
-import io.realm.Realm;
 import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Subscriber;
@@ -47,7 +47,8 @@ public class LoginActivity extends BaseAppCompatActivity {
     Retrofit mRetrofit;
 
     @Inject
-    Realm mRealm;
+    AuthUtil mAuthUtil;
+//    Realm mRealm;
 
     AuthAPI mAuthAPI;
 
@@ -126,18 +127,11 @@ public class LoginActivity extends BaseAppCompatActivity {
             @Override
             public void onNext(UserEntity userEntity) {
                 //cache user info
-                try {
-                    mRealm.beginTransaction();
-                    mRealm.copyToRealm(userEntity);
-                } catch (IllegalArgumentException e) {
-                    Log.d("LoginActivity", e.getMessage());
-                } finally {
-                    mRealm.commitTransaction();
-                }
+                mAuthUtil.saveUserInfo(userEntity);
                 Toast.makeText(LoginActivity.this, userEntity.getName(), Toast.LENGTH_SHORT).show();
             }
         };
-        this.mAuthAPI.getToken("a27e72bd", "aafa838eeede101e5e2b5862c2087da6a403df1cd485ed0b7b6351adb96b4389", "password", account, pwd)
+        this.mAuthAPI.getToken(Constants.CLIENT_ID, Constants.CLIENT_SECRET, "password", account, pwd)
                 .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<TokenEntity>() {
                     @Override
                     public TokenEntity convert(String value) {
@@ -148,14 +142,7 @@ public class LoginActivity extends BaseAppCompatActivity {
                     @Override
                     public Observable<UserEntity> call(TokenEntity tokenEntity) {
                         //cache token
-                        try {
-                            mRealm.beginTransaction();
-                            mRealm.copyToRealm(tokenEntity);
-                        } catch (IllegalArgumentException e) {
-                            Log.e("LoginActivity", e.getMessage());
-                        } finally {
-                            mRealm.commitTransaction();
-                        }
+                        mAuthUtil.saveToken(tokenEntity);
                         return mUserAPI.getCurrentUserInfo(tokenEntity.getAccess_token())
                                 .compose(ResponseCompose.handleResponse(new ResponseCompose.Converter<UserEntity>() {
                                     @Override

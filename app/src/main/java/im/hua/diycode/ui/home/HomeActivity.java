@@ -26,20 +26,16 @@ import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerHomeComponent;
 import im.hua.diycode.network.entity.UserEntity;
 import im.hua.diycode.ui.login.LoginActivity;
+import im.hua.diycode.util.AuthUtil;
 import im.hua.diycode.util.ImageViewLoader;
 import im.hua.mvp.framework.BaseAppCompatActivity;
-import io.realm.Realm;
-import io.realm.RealmResults;
-import rx.Observable;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 
 public class HomeActivity extends BaseAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
-    Realm mRealm;
+    AuthUtil mAuthUtil;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -90,8 +86,7 @@ public class HomeActivity extends BaseAppCompatActivity
         mIvUserHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RealmResults<UserEntity> all = mRealm.where(UserEntity.class).findAll();
-                if (all.size() <= 0) {
+                if (!mAuthUtil.hasLogin()) {
                     startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                     overridePendingTransition(R.anim.slide_in_bottom, R.anim.y_no_move);
                 }
@@ -106,40 +101,23 @@ public class HomeActivity extends BaseAppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mRealm.where(UserEntity.class)
-                .findAllAsync()
-                .asObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(new Func1<RealmResults<UserEntity>, Observable<UserEntity>>() {
-                    @Override
-                    public Observable<UserEntity> call(RealmResults<UserEntity> userEntities) {
-                        return Observable.from(userEntities);
-                    }
-                })
-                .first()
-                .filter(new Func1<UserEntity, Boolean>() {
-                    @Override
-                    public Boolean call(UserEntity userEntity) {
-                        return userEntity != null;
-                    }
-                })
-                .subscribe(new Subscriber<UserEntity>() {
-                    @Override
-                    public void onCompleted() {
+        mAuthUtil.getUserInfo(new Subscriber<UserEntity>() {
+            @Override
+            public void onCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        showShortToast(e.getMessage());
-                    }
+            @Override
+            public void onError(Throwable e) {
 
-                    @Override
-                    public void onNext(UserEntity userEntity) {
-                        mTvUserName.setText(userEntity.getName());
-                        ImageViewLoader.loadUrl(HomeActivity.this,userEntity.getAvatar_url(),mIvUserHead);
-                    }
-                });
+            }
+
+            @Override
+            public void onNext(UserEntity userEntity) {
+                mTvUserName.setText(userEntity.getName());
+                ImageViewLoader.loadUrl(HomeActivity.this,userEntity.getAvatar_url(),mIvUserHead);
+            }
+        });
     }
 
     @Override
