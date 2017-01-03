@@ -6,9 +6,10 @@
         <variable
             name="topic"
             type="im.hua.diycode.network.entity.TopicEntity"/>
+
         <variable
             name="handler"
-            type="im.hua.diycode.ui.home.topic.TopicsFragment"/>
+            type="im.hua.diycode.ui.topic.TopicsFragment"/>
     </data>
 
     <RelativeLayout

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public abstract class SimpleRVAdapter<Bean, VH extends RecyclerView.ViewHolder> 
 
     public abstract VH getItemViewHolder(View view);
 
-    public abstract void bindView(VH holder, Bean data);
+    public abstract void bindView(VH holder, Bean data, int position);
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -32,7 +33,7 @@ public abstract class SimpleRVAdapter<Bean, VH extends RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        bindView(holder, this.mDatas.get(position));
+        bindView(holder, this.mDatas.get(position), position);
     }
 
     @Override
@@ -42,7 +43,7 @@ public abstract class SimpleRVAdapter<Bean, VH extends RecyclerView.ViewHolder> 
 
     public void setDatas(List<Bean> datas) {
         if (null == datas) {
-            return;
+            datas = new ArrayList<>();
         }
         DiffUtil.Callback diffCallback = getDiffCallback(this.mDatas, datas);
         if (diffCallback != null) {
@@ -52,8 +53,10 @@ public abstract class SimpleRVAdapter<Bean, VH extends RecyclerView.ViewHolder> 
 
         if (null != mDatas) {
             mDatas.clear();
+        } else {
+            mDatas = new ArrayList<>(datas.size());
         }
-        mDatas = datas;
+        mDatas.addAll(datas);
         if (diffCallback == null) {
             notifyDataSetChanged();
         }
@@ -71,8 +74,10 @@ public abstract class SimpleRVAdapter<Bean, VH extends RecyclerView.ViewHolder> 
         }
         if (null != mDatas) {
             mDatas.clear();
+        } else {
+            mDatas = new ArrayList<>(datas.size());
         }
-        mDatas = datas;
+        mDatas.addAll(datas);
         if (diffCallback == null) {
             notifyDataSetChanged();
         }

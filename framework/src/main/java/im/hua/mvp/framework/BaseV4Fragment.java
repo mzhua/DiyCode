@@ -1,25 +1,23 @@
 package im.hua.mvp.framework;
 
-import android.app.Activity;
 import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import im.hua.mvp.framework.di.FApplicationComponent;
 
-
 /**
  * Created by hua on 16/10/11.
  */
 
-public class BaseActivity extends Activity {
+public class BaseV4Fragment extends Fragment {
     private ProgressDialog mDialog;
 
     public interface OnDialogDismissListener {
@@ -27,14 +25,28 @@ public class BaseActivity extends Activity {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
     }
 
-    public void showProgressDialog(@Nullable String title, @NonNull String message, @Nullable final OnDialogDismissListener listener) {
+    public void showShortToast(String message) {
+        if (TextUtils.isEmpty(message)) {
+            return;
+        }
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showLongToast(String message) {
+        if (TextUtils.isEmpty(message)) {
+            return;
+        }
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showProgressDialog(@Nullable String title, @NonNull String message, @Nullable final BaseActivity.OnDialogDismissListener listener) {
         if (null == mDialog) {
-            mDialog = new ProgressDialog(this);
+            mDialog = new ProgressDialog(getActivity());
         }
         if (null != listener) {
             mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -63,35 +75,7 @@ public class BaseActivity extends Activity {
         }
     }
 
-    public void showShortToast(String message) {
-        if (TextUtils.isEmpty(message)) {
-            return;
-        }
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    public void showLongToast(String message) {
-        if (TextUtils.isEmpty(message)) {
-            return;
-        }
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    public void showShortSnackbar(String message) {
-        if (TextUtils.isEmpty(message)) {
-            return;
-        }
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    public void showLongSnackbar(String message) {
-        if (TextUtils.isEmpty(message)) {
-            return;
-        }
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
-    }
-
-    public void setRefresh(final boolean refreshing, final SwipeRefreshLayout refreshLayout) {
+    public void setRefresh(final boolean refreshing, final SwipeRefreshLayout refreshLayout){
         if (null == refreshLayout) {
             return;
         }
@@ -109,7 +93,7 @@ public class BaseActivity extends Activity {
      * @return {@link FApplicationComponent}
      */
     protected FApplicationComponent getApplicationComponent() {
-        Application application = getApplication();
+        Application application = getActivity().getApplication();
         if (!(application instanceof FApplication)) {
             throw new IllegalStateException("Application 一定要继承 FApplication");
         }

@@ -1,6 +1,5 @@
 package im.hua.mvp.framework;
 
-import android.app.Activity;
 import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -9,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -19,7 +19,7 @@ import im.hua.mvp.framework.di.FApplicationComponent;
  * Created by hua on 16/10/11.
  */
 
-public class BaseActivity extends Activity {
+public class BaseAppCompatActivity extends AppCompatActivity {
     private ProgressDialog mDialog;
 
     public interface OnDialogDismissListener {
@@ -91,7 +91,7 @@ public class BaseActivity extends Activity {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
     }
 
-    public void setRefresh(final boolean refreshing, final SwipeRefreshLayout refreshLayout) {
+    public void setRefresh(final boolean refreshing, final SwipeRefreshLayout refreshLayout){
         if (null == refreshLayout) {
             return;
         }

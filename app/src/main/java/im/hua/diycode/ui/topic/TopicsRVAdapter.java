@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.home.topic;
+package im.hua.diycode.ui.topic;
 
 /**
  * Created by hua on 2016/12/10.

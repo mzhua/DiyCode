@@ -32,7 +32,7 @@ import im.hua.diycode.network.entity.TokenEntity;
 import im.hua.diycode.network.entity.UserEntity;
 import im.hua.diycode.network.util.ResponseCompose;
 import im.hua.diycode.util.GsonConverterUtil;
-import im.hua.mvp.framework.BaseActivity;
+import im.hua.mvp.framework.BaseAppCompatActivity;
 import io.realm.Realm;
 import retrofit2.Retrofit;
 import rx.Observable;
@@ -41,7 +41,7 @@ import rx.functions.Func1;
 
 import static im.hua.diycode.R.id.toolbar;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseAppCompatActivity {
 
     @Inject
     Retrofit mRetrofit;

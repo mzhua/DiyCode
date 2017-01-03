@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.home.sites;
+package im.hua.diycode.ui.sites;
 
 
 import android.app.Fragment;

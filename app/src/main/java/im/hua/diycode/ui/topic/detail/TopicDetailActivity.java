@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.home.topic.detail;
+package im.hua.diycode.ui.topic.detail;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,16 +31,17 @@ import im.hua.diycode.R;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerTopicsComponent;
 import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.ui.topic.detail.reply.TopicReplyActivity;
 import im.hua.diycode.util.DrawTextUtil;
 import im.hua.diycode.util.FileUtil;
 import im.hua.diycode.util.ImageViewLoader;
 import im.hua.diycode.util.ShowTimeFormatter;
 import im.hua.diycode.widget.MarkdownView;
-import im.hua.mvp.framework.MVPActivity;
+import im.hua.mvp.framework.MVPAppCompatActivity;
 
 import static im.hua.diycode.R.id.fab;
 
-public class TopicDetailActivity extends MVPActivity<TopicDetailView, TopicDetailPresenter> implements TopicDetailView {
+public class TopicDetailActivity extends MVPAppCompatActivity<TopicDetailView,TopicDetailPresenter> implements TopicDetailView {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;

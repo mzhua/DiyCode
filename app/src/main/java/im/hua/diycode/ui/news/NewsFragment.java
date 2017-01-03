@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.home.news;
+package im.hua.diycode.ui.news;
 
 
 import android.app.Fragment;

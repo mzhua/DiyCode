@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.home.topic;
+package im.hua.diycode.ui.topic;
 
 import android.support.v7.util.DiffUtil;
 import android.text.TextUtils;

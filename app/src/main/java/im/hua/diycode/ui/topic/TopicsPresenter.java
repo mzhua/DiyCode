@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.home.topic;
+package im.hua.diycode.ui.topic;
 
 import java.net.UnknownHostException;
 import java.util.List;

@@ -27,7 +27,7 @@ import im.hua.diycode.di.component.DaggerHomeComponent;
 import im.hua.diycode.network.entity.UserEntity;
 import im.hua.diycode.ui.login.LoginActivity;
 import im.hua.diycode.util.ImageViewLoader;
-import im.hua.mvp.framework.BaseActivity;
+import im.hua.mvp.framework.BaseAppCompatActivity;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import rx.Observable;
@@ -35,7 +35,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 
-public class HomeActivity extends BaseActivity
+public class HomeActivity extends BaseAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Inject

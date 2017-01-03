@@ -14,7 +14,7 @@ import android.view.View;
  * Created by hua on 16/10/11.
  */
 
-public abstract class AppbarMVPActivity<V extends IMVPView, P extends IMVPPresenter<V>> extends MVPActivity<V,P> {
+public abstract class AppbarMVPActivity<V extends IMVPView, P extends IMVPPresenter<V>> extends MVPAppCompatActivity<V,P> {
     @LayoutRes
     public abstract int getContentLayout();
 

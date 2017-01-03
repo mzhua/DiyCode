@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.home.topic.detail;
+package im.hua.diycode.ui.topic.detail.reply;
 
 import im.hua.diycode.network.entity.TopicReplyEntity;
 import im.hua.mvp.framework.IMVPListView;

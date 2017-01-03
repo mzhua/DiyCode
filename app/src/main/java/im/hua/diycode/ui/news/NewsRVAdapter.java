@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.home.news;
+package im.hua.diycode.ui.news;
 
 /**
  * Created by hua on 2016/12/16.

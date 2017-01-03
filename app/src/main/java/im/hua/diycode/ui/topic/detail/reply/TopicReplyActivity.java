@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.home.topic.detail;
+package im.hua.diycode.ui.topic.detail.reply;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,9 +21,9 @@ import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerTopicsComponent;
 import im.hua.diycode.network.entity.TopicReplyEntity;
 import im.hua.diycode.widget.rvwrapper.LoadMoreWrapper;
-import im.hua.mvp.framework.MVPActivity;
+import im.hua.mvp.framework.MVPAppCompatActivity;
 
-public class TopicReplyActivity extends MVPActivity<TopicReplyView, TopicReplyPresenter> implements TopicReplyView{
+public class TopicReplyActivity extends MVPAppCompatActivity<TopicReplyView, TopicReplyPresenter> implements TopicReplyView {
     public static String EXTRA_KEY_TOPIC_ID = "topicId";
 
     @BindView(R.id.toolbar)
@@ -60,8 +60,8 @@ public class TopicReplyActivity extends MVPActivity<TopicReplyView, TopicReplyPr
 
         setSupportActionBar(mToolbar);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -90,7 +90,7 @@ public class TopicReplyActivity extends MVPActivity<TopicReplyView, TopicReplyPr
             mLoadMoreWrapper.setOnLoadMoreListener(new LoadMoreWrapper.OnLoadMoreListener() {
                 @Override
                 public void onLoadMoreRequested() {
-                    getPresenter().getRepliesOfTopic(mTopicId,mReplyRVAdapter.getItemCount());
+                    getPresenter().getRepliesOfTopic(mTopicId, mReplyRVAdapter.getItemCount());
                 }
             });
         }

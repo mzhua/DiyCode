@@ -40,7 +40,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".ui.home.topic.detail.TopicReplyActivity"
+            android:name=".ui.topic.detail.reply.TopicReplyActivity"
             android:label="@string/title_activity_topic_detail_reply"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

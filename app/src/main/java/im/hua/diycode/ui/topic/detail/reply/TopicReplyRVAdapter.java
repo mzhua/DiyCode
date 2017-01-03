@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.home.topic.detail;
+package im.hua.diycode.ui.topic.detail.reply;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -50,7 +50,7 @@ public class TopicReplyRVAdapter extends SimpleRVAdapter<TopicReplyEntity, Topic
     }
 
     @Override
-    public void bindView(final ItemViewHolder holder, TopicReplyEntity data) {
+    public void bindView(final ItemViewHolder holder, TopicReplyEntity data, int position) {
         holder.mItemBinding.setReply(data);
         holder.mItemBinding.setHandler(mTopicReplyActivity);
         holder.mTopicReplyTime.setText(ShowTimeFormatter.getFormatTime(data.getUpdated_at(), ""));

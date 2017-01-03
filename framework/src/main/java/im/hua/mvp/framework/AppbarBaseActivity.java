@@ -14,7 +14,7 @@ import android.view.View;
  * Created by hua on 16/10/11.
  */
 
-public abstract class AppbarBaseActivity extends BaseActivity {
+public abstract class AppbarBaseActivity extends BaseAppCompatActivity {
     @LayoutRes
     public abstract int getContentLayout();
 

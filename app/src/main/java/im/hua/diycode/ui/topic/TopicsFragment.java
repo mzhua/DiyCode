@@ -1,4 +1,4 @@
-package im.hua.diycode.ui.home.topic;
+package im.hua.diycode.ui.topic;
 
 
 import android.content.Intent;
@@ -21,8 +21,8 @@ import im.hua.diycode.R;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerTopicsComponent;
 import im.hua.diycode.network.entity.TopicEntity;
-import im.hua.diycode.ui.home.topic.detail.TopicDetailActivity;
 import im.hua.diycode.ui.login.LoginActivity;
+import im.hua.diycode.ui.topic.detail.TopicDetailActivity;
 import im.hua.diycode.widget.rvwrapper.LoadMoreWrapper;
 import im.hua.mvp.framework.MVPFragment;
 
