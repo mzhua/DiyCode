@@ -5,7 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import im.hua.diycode.data.remote.repository.ITopicsRepository;
-import im.hua.diycode.network.entity.TopicReplyEntity;
+import im.hua.diycode.data.entity.TopicReplyEntity;
 import im.hua.mvp.framework.MVPListPresenter;
 import rx.Subscriber;
 

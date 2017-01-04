@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import java.util.List;
 
-import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.data.entity.TopicEntity;
 
 /**
  * Created by hua on 2016/12/10.

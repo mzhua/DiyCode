@@ -6,9 +6,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import im.hua.diycode.data.remote.repository.ITopicsRepository;
-import im.hua.diycode.network.MyException;
-import im.hua.diycode.network.entity.OkEntity;
-import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.data.MyException;
+import im.hua.diycode.data.entity.OkEntity;
+import im.hua.diycode.data.entity.TopicEntity;
 import im.hua.mvp.framework.BackgroundableSubscriber;
 import im.hua.mvp.framework.IMVPView;
 import im.hua.mvp.framework.MVPListPresenter;

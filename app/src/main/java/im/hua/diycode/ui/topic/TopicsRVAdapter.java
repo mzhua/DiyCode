@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.hua.diycode.R;
 import im.hua.diycode.databinding.TopicListItemBinding;
-import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.data.entity.TopicEntity;
 import im.hua.diycode.util.ImageViewLoader;
 import im.hua.diycode.util.ShowTimeFormatter;
 

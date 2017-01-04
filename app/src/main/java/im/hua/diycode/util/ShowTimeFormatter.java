@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.data.entity.TopicEntity;
 
 /**
  * Created by hua on 2016/12/10.

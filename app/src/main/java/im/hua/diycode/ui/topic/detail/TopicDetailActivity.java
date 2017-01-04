@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 import im.hua.diycode.R;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerTopicsComponent;
-import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.data.entity.TopicEntity;
 import im.hua.diycode.ui.topic.detail.reply.TopicReplyActivity;
 import im.hua.diycode.util.DrawTextUtil;
 import im.hua.diycode.util.FileUtil;

@@ -5,7 +5,7 @@
 
         <variable
             name="reply"
-            type="im.hua.diycode.network.entity.TopicReplyEntity"/>
+            type="im.hua.diycode.data.entity.TopicReplyEntity"/>
 
         <variable
             name="handler"

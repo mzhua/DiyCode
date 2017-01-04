@@ -2,9 +2,9 @@ package im.hua.diycode.data.remote.repository;
 
 import java.util.List;
 
-import im.hua.diycode.network.entity.OkEntity;
-import im.hua.diycode.network.entity.TopicEntity;
-import im.hua.diycode.network.entity.TopicReplyEntity;
+import im.hua.diycode.data.entity.OkEntity;
+import im.hua.diycode.data.entity.TopicEntity;
+import im.hua.diycode.data.entity.TopicReplyEntity;
 import rx.Observable;
 
 /**

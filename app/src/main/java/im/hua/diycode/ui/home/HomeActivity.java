@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import im.hua.diycode.R;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerHomeComponent;
-import im.hua.diycode.network.entity.UserEntity;
+import im.hua.diycode.data.entity.UserEntity;
 import im.hua.diycode.ui.login.LoginActivity;
 import im.hua.diycode.util.AuthUtil;
 import im.hua.diycode.util.ImageViewLoader;

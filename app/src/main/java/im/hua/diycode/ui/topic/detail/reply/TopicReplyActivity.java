@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import im.hua.diycode.R;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerTopicsComponent;
-import im.hua.diycode.network.entity.TopicReplyEntity;
+import im.hua.diycode.data.entity.TopicReplyEntity;
 import im.hua.diycode.widget.rvwrapper.LoadMoreWrapper;
 import im.hua.mvp.framework.MVPAppCompatActivity;
 

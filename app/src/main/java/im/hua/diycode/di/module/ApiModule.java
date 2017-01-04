@@ -4,11 +4,11 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import im.hua.diycode.network.api.AuthAPI;
-import im.hua.diycode.network.api.NewsAPI;
-import im.hua.diycode.network.api.SitesAPI;
-import im.hua.diycode.network.api.TopicAPI;
-import im.hua.diycode.network.api.UserAPI;
+import im.hua.diycode.data.api.AuthAPI;
+import im.hua.diycode.data.api.NewsAPI;
+import im.hua.diycode.data.api.SitesAPI;
+import im.hua.diycode.data.api.TopicAPI;
+import im.hua.diycode.data.api.UserAPI;
 import retrofit2.Retrofit;
 
 /**

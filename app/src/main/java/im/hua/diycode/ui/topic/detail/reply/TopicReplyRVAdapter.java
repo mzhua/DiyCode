@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 import im.hua.diycode.Constants;
 import im.hua.diycode.R;
 import im.hua.diycode.databinding.TopicReplyListItemBinding;
-import im.hua.diycode.network.entity.TopicReplyEntity;
+import im.hua.diycode.data.entity.TopicReplyEntity;
 import im.hua.diycode.util.ImageViewLoader;
 import im.hua.diycode.util.ShowTimeFormatter;
 import im.hua.mvp.framework.SimpleRVAdapter;

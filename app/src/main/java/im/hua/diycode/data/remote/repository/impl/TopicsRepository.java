@@ -7,11 +7,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import im.hua.diycode.data.remote.repository.ITopicsRepository;
-import im.hua.diycode.network.api.TopicAPI;
-import im.hua.diycode.network.entity.OkEntity;
-import im.hua.diycode.network.entity.TopicEntity;
-import im.hua.diycode.network.entity.TopicReplyEntity;
-import im.hua.diycode.network.util.ResponseCompose;
+import im.hua.diycode.data.api.TopicAPI;
+import im.hua.diycode.data.entity.OkEntity;
+import im.hua.diycode.data.entity.TopicEntity;
+import im.hua.diycode.data.entity.TopicReplyEntity;
+import im.hua.diycode.data.util.ResponseCompose;
 import im.hua.diycode.util.AuthUtil;
 import im.hua.diycode.util.GsonConverterUtil;
 import rx.Observable;

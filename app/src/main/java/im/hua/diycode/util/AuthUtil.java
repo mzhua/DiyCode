@@ -4,8 +4,8 @@ import android.util.Log;
 
 import javax.inject.Inject;
 
-import im.hua.diycode.network.entity.TokenEntity;
-import im.hua.diycode.network.entity.UserEntity;
+import im.hua.diycode.data.entity.TokenEntity;
+import im.hua.diycode.data.entity.UserEntity;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import rx.Observable;

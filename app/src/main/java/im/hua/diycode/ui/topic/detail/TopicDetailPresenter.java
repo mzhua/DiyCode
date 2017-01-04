@@ -3,7 +3,7 @@ package im.hua.diycode.ui.topic.detail;
 import javax.inject.Inject;
 
 import im.hua.diycode.data.remote.repository.ITopicsRepository;
-import im.hua.diycode.network.entity.TopicEntity;
+import im.hua.diycode.data.entity.TopicEntity;
 import im.hua.mvp.framework.MVPPresenter;
 import rx.Subscriber;
 

@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import im.hua.diycode.Constants;
-import im.hua.diycode.network.util.stringconverter.StringConverterFactory;
+import im.hua.diycode.data.util.stringconverter.StringConverterFactory;
 import im.hua.diycode.util.AuthUtil;
 import im.hua.mvp.framework.BuildConfig;
 import im.hua.mvp.framework.FApplication;
