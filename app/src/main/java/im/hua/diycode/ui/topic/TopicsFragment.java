@@ -26,7 +26,7 @@ import im.hua.diycode.ui.topic.detail.TopicDetailActivity;
 import im.hua.diycode.widget.rvwrapper.LoadMoreWrapper;
 import im.hua.mvp.framework.MVPFragment;
 
-public class TopicsFragment extends MVPFragment<TopicsView, TopicsPresenter> implements TopicsView {
+public class TopicsFragment extends MVPFragment<ITopicsView, TopicsPresenter> implements ITopicsView {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;

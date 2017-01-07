@@ -7,7 +7,7 @@ import im.hua.mvp.framework.IMVPListView;
  * Created by hua on 2016/11/17.
  */
 
-public interface TopicsView extends IMVPListView<TopicEntity> {
+public interface ITopicsView extends IMVPListView<TopicEntity> {
 
     void favSuccess(String topicId, boolean fav);
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import im.hua.diycode.data.remote.repository.ITopicsRepository;
+import im.hua.diycode.data.repository.ITopicsRepository;
 import im.hua.diycode.data.MyException;
 import im.hua.diycode.data.entity.OkEntity;
 import im.hua.diycode.data.entity.TopicEntity;
@@ -18,7 +18,7 @@ import rx.Subscriber;
  * Created by hua on 2016/11/17.
  */
 
-public class TopicsPresenter extends MVPListPresenter<TopicsView, TopicEntity> {
+public class TopicsPresenter extends MVPListPresenter<ITopicsView, TopicEntity> {
 
     private ITopicsRepository mTopicsRepository;
 

@@ -9,7 +9,7 @@ import dagger.Component;
 import im.hua.diycode.di.module.ApiModule;
 import im.hua.diycode.di.module.ApplicationModule;
 import im.hua.diycode.di.module.RepositoryModule;
-import im.hua.diycode.data.remote.repository.ITopicsRepository;
+import im.hua.diycode.data.repository.ITopicsRepository;
 import im.hua.mvp.framework.BaseActivity;
 import im.hua.mvp.framework.di.FApplicationComponent;
 import io.realm.Realm;

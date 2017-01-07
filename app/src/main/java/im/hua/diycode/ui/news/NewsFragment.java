@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.hua.diycode.R;
+import im.hua.diycode.data.entity.NewsEntity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +23,8 @@ public class NewsFragment extends Fragment {
     RecyclerView mRecyclerView;
     @BindView(R.id.refresh)
     SwipeRefreshLayout mRefresh;
+
+    private NewsRVAdapter mNewsRVAdapter;
 
     public NewsFragment() {
     }
@@ -38,6 +41,10 @@ public class NewsFragment extends Fragment {
         View view = inflater.inflate(R.layout.topic_fragment, container, false);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    public void onItemClick(View view, NewsEntity newsEntity) {
+
     }
 
 }

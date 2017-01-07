@@ -1,4 +1,4 @@
-package im.hua.diycode.util;
+package im.hua.diycode.data.util;
 
 import android.util.Log;
 

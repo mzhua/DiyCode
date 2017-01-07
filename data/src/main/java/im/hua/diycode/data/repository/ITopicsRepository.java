@@ -1,4 +1,4 @@
-package im.hua.diycode.data.remote.repository;
+package im.hua.diycode.data.repository;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package im.hua.diycode.util;
+package im.hua.diycode.data.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

@@ -1,4 +1,4 @@
-package im.hua.diycode.data.remote.repository.impl;
+package im.hua.diycode.data.repository.impl;
 
 import android.text.TextUtils;
 
@@ -6,14 +6,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import im.hua.diycode.data.remote.repository.ITopicsRepository;
 import im.hua.diycode.data.api.TopicAPI;
 import im.hua.diycode.data.entity.OkEntity;
 import im.hua.diycode.data.entity.TopicEntity;
 import im.hua.diycode.data.entity.TopicReplyEntity;
+import im.hua.diycode.data.repository.ITopicsRepository;
+import im.hua.diycode.data.util.AuthUtil;
+import im.hua.diycode.data.util.GsonConverterUtil;
 import im.hua.diycode.data.util.ResponseCompose;
-import im.hua.diycode.util.AuthUtil;
-import im.hua.diycode.util.GsonConverterUtil;
 import rx.Observable;
 
 
