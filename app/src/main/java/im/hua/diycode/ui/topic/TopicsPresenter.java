@@ -31,7 +31,7 @@ public class TopicsPresenter extends MVPListPresenter<ITopicsView, TopicEntity> 
         if (!isLoadingMore(offset)) {
             getView().showLoadingView("");
         }
-        addSubscription(this.mTopicsRepository.getTopics(null, null, offset, PAGE_SIZE)
+        addSubscription(this.mTopicsRepository.getTopics(null, null, offset, getPageSize())
                 .subscribe(new Subscriber<List<TopicEntity>>() {
                     @Override
                     public void onCompleted() {

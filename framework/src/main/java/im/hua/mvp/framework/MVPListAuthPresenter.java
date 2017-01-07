@@ -6,12 +6,8 @@ import java.util.List;
  * Created by hua on 16/10/12.
  */
 
-public abstract class MVPListPresenter<V extends IMVPListView<E>, E> extends MVPPresenter<V> {
+public abstract class MVPListAuthPresenter<V extends IMVPListAuthView<E>, E> extends MVPPresenter<V> {
 
-    /**
-     * 默认为20
-     * @return
-     */
     public int getPageSize() {
         return 20;
     }
