@@ -1,6 +1,7 @@
 package im.hua.diycode.ui.news;
 
 import im.hua.diycode.data.entity.NewsEntity;
+import im.hua.diycode.data.repository.INewsRepository;
 import im.hua.mvp.framework.MVPListPresenter;
 
 /**
@@ -9,4 +10,13 @@ import im.hua.mvp.framework.MVPListPresenter;
 
 public class NewsPresenter extends MVPListPresenter<INewView,NewsEntity> {
 
+    private INewsRepository mRepository;
+
+    public NewsPresenter(INewsRepository repository) {
+        mRepository = repository;
+    }
+
+    public void getNewsList(Integer node_id, Integer offset){
+        mRepository.getNewsList(node_id, offset, 20);
+    }
 }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import im.hua.diycode.data.repository.INewsRepository;
 import im.hua.diycode.di.module.ApiModule;
 import im.hua.diycode.di.module.ApplicationModule;
 import im.hua.diycode.di.module.RepositoryModule;
@@ -32,4 +33,6 @@ public interface ApplicationComponent extends FApplicationComponent {
     Realm getRealm();
 
     ITopicsRepository getTopicsRepository();
+
+    INewsRepository getNewsRepository();
 }
