@@ -5,8 +5,10 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import im.hua.diycode.data.repository.INewsRepository;
+import im.hua.diycode.data.repository.ISitesRepository;
 import im.hua.diycode.data.repository.ITopicsRepository;
 import im.hua.diycode.data.repository.impl.NewsRepository;
+import im.hua.diycode.data.repository.impl.SitesRepository;
 import im.hua.diycode.data.repository.impl.TopicsRepository;
 
 /**
@@ -24,6 +26,12 @@ public class RepositoryModule {
     @Provides
     @Singleton
     INewsRepository provideNewsRepository(NewsRepository repository) {
+        return repository;
+    }
+
+    @Provides
+    @Singleton
+    ISitesRepository provideSitesRepository(SitesRepository repository) {
         return repository;
     }
 }

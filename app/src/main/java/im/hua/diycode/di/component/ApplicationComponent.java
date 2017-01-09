@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import im.hua.diycode.data.repository.INewsRepository;
+import im.hua.diycode.data.repository.ISitesRepository;
 import im.hua.diycode.di.module.ApiModule;
 import im.hua.diycode.di.module.ApplicationModule;
 import im.hua.diycode.di.module.RepositoryModule;
@@ -35,4 +36,6 @@ public interface ApplicationComponent extends FApplicationComponent {
     ITopicsRepository getTopicsRepository();
 
     INewsRepository getNewsRepository();
+
+    ISitesRepository getSitesRepository();
 }

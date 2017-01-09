@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/news_node_name"
             android:layout_marginLeft="6dp"
-            android:layout_toRightOf="@+id/topic_dot"
+            android:layout_toRightOf="@+id/news_dot"
             android:gravity="end"
             android:maxLines="1"
             android:textColor="@color/textSecondary"

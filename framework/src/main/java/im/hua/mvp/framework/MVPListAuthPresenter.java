@@ -8,11 +8,11 @@ import java.util.List;
 
 public abstract class MVPListAuthPresenter<V extends IMVPListAuthView<E>, E> extends MVPPresenter<V> {
 
-    public int getPageSize() {
+    protected int getPageSize() {
         return 20;
     }
 
-    protected boolean isLoadingMore(int offset) {
+    private boolean isLoadingMore(int offset) {
         return offset > 0;
     }
 
