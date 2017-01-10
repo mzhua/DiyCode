@@ -2,6 +2,8 @@ package im.hua.diycode.ui.news;
 
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -73,7 +75,8 @@ public class NewsFragment extends MVPFragment<INewView, NewsPresenter> implement
     }
 
     public void onItemClick(View view, NewsEntity newsEntity) {
-
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsEntity.getAddress()));
+        startActivity(intent);
     }
 
     @Override

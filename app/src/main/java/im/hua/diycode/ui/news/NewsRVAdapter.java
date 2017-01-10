@@ -45,7 +45,7 @@ public class NewsRVAdapter extends SimpleRVAdapter<NewsEntity, NewsRVAdapter.Ite
     }
 
     @Override
-    public void bindView(ItemViewHolder holder, NewsEntity data, int position) {
+    public void bindView(final ItemViewHolder holder, final NewsEntity data, int position) {
         ImageViewLoader.loadUrl(holder.itemView.getContext(), data.getUser().getAvatar_url(), holder.mNewsUserHeader);
         holder.mNewsTime.setText(ShowTimeFormatter.getFormatTime(data.getReplied_at(),data.getUpdated_at()));
         holder.mBind.setNews(data);
