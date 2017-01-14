@@ -1,4 +1,4 @@
-def libVersion = '1.0.6.4'
+def libVersion = '1.0.6.5'
 
 group = 'im.hua.mvp.framework'
 version = libVersion
