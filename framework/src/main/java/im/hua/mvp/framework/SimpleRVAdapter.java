@@ -28,7 +28,7 @@ public abstract class SimpleRVAdapter<Bean, VH extends RecyclerView.ViewHolder> 
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-        return getItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(), parent, false));
+        return getItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(), null));
     }
 
     @Override

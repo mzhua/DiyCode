@@ -38,10 +38,14 @@ public class SitesRVAdapter extends SimpleRVAdapter<SiteEntity, SitesRVAdapter.I
         return new ItemViewHolder(view);
     }
 
+    InnerGridRVAdapter innerGridRVAdapter;
+
     @Override
     public void bindView(ItemViewHolder holder, SiteEntity data, int position) {
         holder.mTvName.setText(data.getName());
-        InnerGridRVAdapter innerGridRVAdapter = new InnerGridRVAdapter();
+        if (null == innerGridRVAdapter) {
+            innerGridRVAdapter = new InnerGridRVAdapter();
+        }
         holder.mRecyclerView.setAdapter(innerGridRVAdapter);
         innerGridRVAdapter.setDatas(data.getSites());
     }
