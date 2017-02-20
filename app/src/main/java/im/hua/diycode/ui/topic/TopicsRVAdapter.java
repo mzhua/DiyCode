@@ -17,12 +17,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.hua.diycode.R;
-import im.hua.diycode.databinding.TopicListItemBinding;
 import im.hua.diycode.data.entity.TopicEntity;
 import im.hua.diycode.util.ImageViewLoader;
 import im.hua.diycode.util.ShowTimeFormatter;
 
+import static android.R.attr.name;
+
 public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemViewHolder> {
+
     private List<TopicEntity> mTopics;
 
     private TopicsFragment mTopicsFragment;
@@ -38,14 +40,33 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        TopicEntity topic = mTopics.get(position);
-        holder.mItemBinding.setTopic(topic);
-        holder.mItemBinding.setHandler(mTopicsFragment);
+        final TopicEntity topic = mTopics.get(position);
 
         ImageViewLoader.loadUrl(holder.itemView.getContext(), topic.getUser().getAvatar_url(), holder.mTopicUserHeader, ImageViewLoader.NO_PLACE_HOLDER, ImageViewLoader.Shape.DEFAULT);
 
         //2016-12-10T01:53:12.465+08:00
+        holder.mTopicNodeName.setText(topic.getNode_name());
+        holder.mTopicUserName.setText(topic.getUser().getName());
+        holder.mTopicTitle.setText(topic.getTitle());
         holder.mTopicTime.setText(ShowTimeFormatter.getFormatTime(topic));
+        holder.mTopicFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTopicsFragment.onFavClick(v,topic);
+            }
+        });
+        holder.mTopicPraise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTopicsFragment.onPraiseClick(v,topic);
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTopicsFragment.onItemClick(v,topic);
+            }
+        });
     }
 
     @Override
@@ -83,16 +104,23 @@ public class TopicsRVAdapter extends RecyclerView.Adapter<TopicsRVAdapter.ItemVi
     class ItemViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.topic_user_header)
         ImageView mTopicUserHeader;
+        @BindView(R.id.topic_fav)
+        ImageView mTopicFav;
+        @BindView(R.id.topic_praise)
+        ImageView mTopicPraise;
+        @BindView(R.id.topic_user_name)
+        TextView mTopicUserName;
+        @BindView(R.id.topic_node_name)
+        TextView mTopicNodeName;
         @BindView(R.id.topic_time)
         TextView mTopicTime;
         @BindView(R.id.topic_pic)
         ImageView mTopicPic;
-
-        TopicListItemBinding mItemBinding;
+        @BindView(R.id.topic_title)
+        TextView mTopicTitle;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
-            mItemBinding = TopicListItemBinding.bind(itemView);
             ButterKnife.bind(this, itemView);
         }
     }

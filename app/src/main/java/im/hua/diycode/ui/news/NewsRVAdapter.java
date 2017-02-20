@@ -12,7 +12,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.hua.diycode.R;
 import im.hua.diycode.data.entity.NewsEntity;
-import im.hua.diycode.databinding.NewsListItemBinding;
 import im.hua.diycode.util.ImageViewLoader;
 import im.hua.diycode.util.ShowTimeFormatter;
 import im.hua.mvp.framework.SimpleRVAdapter;
@@ -45,24 +44,35 @@ public class NewsRVAdapter extends SimpleRVAdapter<NewsEntity, NewsRVAdapter.Ite
     }
 
     @Override
-    public void bindView(ItemViewHolder holder, NewsEntity data, int position) {
+    public void bindView(ItemViewHolder holder, final NewsEntity data, int position) {
         ImageViewLoader.loadUrl(holder.itemView.getContext(), data.getUser().getAvatar_url(), holder.mNewsUserHeader);
-        holder.mNewsTime.setText(ShowTimeFormatter.getFormatTime(data.getReplied_at(),data.getUpdated_at()));
-        holder.mBind.setNews(data);
-        holder.mBind.setHandler(mNewsFragment);
+        holder.mNewsTime.setText(ShowTimeFormatter.getFormatTime(data.getReplied_at(), data.getUpdated_at()));
+        holder.mNewsUserName.setText(data.getUser().getName());
+        holder.mNewsNodeName.setText(data.getNode_name());
+        holder.mNewsTitle.setText(data.getTitle());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNewsFragment.onItemClick(v, data);
+            }
+        });
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
-        private final NewsListItemBinding mBind;
         @BindView(R.id.news_user_header)
         ImageView mNewsUserHeader;
+        @BindView(R.id.news_user_name)
+        TextView mNewsUserName;
+        @BindView(R.id.news_node_name)
+        TextView mNewsNodeName;
         @BindView(R.id.news_time)
         TextView mNewsTime;
+        @BindView(R.id.news_title)
+        TextView mNewsTitle;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mBind = NewsListItemBinding.bind(itemView);
         }
     }
 }

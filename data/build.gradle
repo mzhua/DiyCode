@@ -32,6 +32,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.7.10'
 
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
     compile "com.google.dagger:dagger:$rootProject.ext.dagger"
