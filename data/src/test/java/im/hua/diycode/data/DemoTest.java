@@ -15,6 +15,6 @@ public class DemoTest {
     @Test
     public void testAdd() {
         CountDownLatch countDownLatch;
-        assertEquals(1, 1 + 2);
+        assertEquals(3, 1 + 2);
     }
 }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -27,7 +28,7 @@ public class GsonConverterUtil {
      * @param <T>
      * @return
      */
-    public static <T> List<T> jsonArrayParse(Class<T> clazz, String value) {
+    public static <T> List<T> jsonArrayParse(Class<T> clazz, String value) throws IllegalStateException,JsonSyntaxException {
         JsonParser parser = new JsonParser();
         JsonArray Jarray = parser.parse(value).getAsJsonArray();
 
@@ -45,7 +46,7 @@ public class GsonConverterUtil {
         return mGson.fromJson(value, clazz);
     }
 
-    public static <T> List<T> read(Class<T> type, JsonReader in) throws IOException {
+    /*public static <T> List<T> read(Class<T> type, JsonReader in) throws IOException {
         if (in.peek() == JsonToken.NULL) {
             in.nextNull();
             return null;
@@ -61,5 +62,5 @@ public class GsonConverterUtil {
         in.endArray();
 
         return list;
-    }
+    }*/
 }
