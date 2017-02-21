@@ -59,7 +59,7 @@ public class NewsRepositoryTest {
 
     @Test
     public void testNewApiGetNewsCalled() throws InterruptedException {
-        Integer nodeId = null, offset = null, limit = null;
+        Integer nodeId = 0, offset = 0, limit = 0;
 
         Response<String> responseStr = Response.success("[\n" +
                 "  {\n" +
