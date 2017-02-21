@@ -14,6 +14,9 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                    "BUG_HD_SDK_GENERAL_KEY":"927395776181ce6f28b71f9a1f48611f"
+        ]
     }
     buildTypes {
         release {

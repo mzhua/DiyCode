@@ -22,11 +22,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.hua.diycode.R;
+import im.hua.diycode.data.entity.UserEntity;
+import im.hua.diycode.data.util.AuthUtil;
 import im.hua.diycode.di.component.ApplicationComponent;
 import im.hua.diycode.di.component.DaggerHomeComponent;
-import im.hua.diycode.data.entity.UserEntity;
 import im.hua.diycode.ui.login.LoginActivity;
-import im.hua.diycode.data.util.AuthUtil;
 import im.hua.diycode.util.ImageViewLoader;
 import im.hua.mvp.framework.BaseAppCompatActivity;
 import rx.Subscriber;
@@ -96,6 +96,7 @@ public class HomeActivity extends BaseAppCompatActivity
         mHomeViewPager.setAdapter(mHomeVPAdapter);
 
         mHomeTabLayout.setupWithViewPager(mHomeViewPager);
+
     }
 
     @Override

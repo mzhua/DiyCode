@@ -24,6 +24,10 @@ allprojects {
             url "http://maven.bughd.com/public"
         }
     }
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 }
 
 task clean(type: Delete) {
