@@ -1,33 +1,25 @@
 package im.hua.diycode.data.test.repository;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 import im.hua.diycode.data.api.NewsAPI;
-import im.hua.diycode.data.entity.NewsEntity;
 import im.hua.diycode.data.repository.INewsRepository;
 import im.hua.diycode.data.repository.impl.NewsRepository;
-import im.hua.diycode.data.util.GsonConverterUtil;
-import im.hua.diycode.data.util.ResponseCompose;
 import retrofit2.Response;
 import rx.Observable;
-import rx.Subscriber;
+import rx.Scheduler;
+import rx.android.plugins.RxAndroidPlugins;
+import rx.android.plugins.RxAndroidSchedulersHook;
+import rx.plugins.RxJavaPlugins;
+import rx.plugins.RxJavaSchedulersHook;
+import rx.schedulers.Schedulers;
 
-import static android.R.attr.offset;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.isA;
 
 /**
  * Created by hua on 2017/2/20.
@@ -37,6 +29,28 @@ public class NewsRepositoryTest {
     @Mock
     private NewsAPI mNewsAPI;
 
+    @BeforeClass
+    public static void init() {
+        /**
+         * 让Schedulers.io()变同步
+         */
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook(){
+            @Override
+            public Scheduler getIOScheduler() {
+                return Schedulers.immediate();
+            }
+        });
+        /**
+         * 让AndroidSchedulers.mainThread()返回当前线程，这样就可以不需要Android环境，摆脱Robolectric
+         */
+        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook(){
+            @Override
+            public Scheduler getMainThreadScheduler() {
+                return Schedulers.immediate();
+            }
+        });
+    }
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -45,7 +59,7 @@ public class NewsRepositoryTest {
 
     @Test
     public void testNewApiGetNewsCalled() throws InterruptedException {
-        Integer nodeId = null,offset = null,limit = null;
+        Integer nodeId = null, offset = null, limit = null;
 
         Response<String> responseStr = Response.success("[\n" +
                 "  {\n" +
@@ -68,9 +82,8 @@ public class NewsRepositoryTest {
                 "    \"replies_count\": 0\n" +
                 "  }]");
         Observable<Response<String>> response = Observable.just(responseStr);
-        Mockito.when(mNewsAPI.getNews(anyInt(), anyInt(), anyInt())).thenReturn(response);
-        Observable<Response<String>> news = mNewsAPI.getNews(nodeId, offset, limit);
-        assertNotNull(news);
+        assertNotNull(response);
+        Mockito.when(mNewsAPI.getNews(nodeId, offset, limit)).thenReturn(response);
         mNewsRepository.getNewsList(nodeId, offset, limit);
         Mockito.verify(mNewsAPI).getNews(nodeId, offset, limit);
     }

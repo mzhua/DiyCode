@@ -1,5 +1,6 @@
 package im.hua.diycode.data.util;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import javax.inject.Inject;
@@ -50,7 +51,7 @@ public class AuthUtil {
      * @param subscriber
      * @return
      */
-    public void getUserInfo(Subscriber<UserEntity> subscriber) {
+    public void getUserInfo(@NonNull Subscriber<UserEntity> subscriber) {
         mRealm.where(UserEntity.class)
                 .findAllAsync()
                 .asObservable()
@@ -71,7 +72,7 @@ public class AuthUtil {
                 .subscribe(subscriber);
     }
 
-    public void saveUserInfo(UserEntity userEntity) {
+    public void saveUserInfo(@NonNull UserEntity userEntity) {
         try {
             mRealm.beginTransaction();
             mRealm.copyToRealm(userEntity);
@@ -82,7 +83,7 @@ public class AuthUtil {
         }
     }
 
-    public void saveToken(TokenEntity tokenEntity) {
+    public void saveToken(@NonNull TokenEntity tokenEntity) {
         try {
             mRealm.beginTransaction();
             mRealm.copyToRealm(tokenEntity);

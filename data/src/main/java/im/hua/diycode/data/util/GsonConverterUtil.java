@@ -42,7 +42,7 @@ public class GsonConverterUtil {
         return lcs;
     }
 
-    public static <T> T jsonObjectParse(Class<T> clazz, String value) {
+    public static <T> T jsonObjectParse(Class<T> clazz, String value) throws JsonSyntaxException{
         return mGson.fromJson(value, clazz);
     }
 
