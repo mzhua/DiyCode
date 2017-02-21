@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'android-apt'
 apply plugin: 'realm-android'
 
 android {
@@ -33,10 +32,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:'+rootProject.supportLibraryVersion
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.10'
-    androidTestCompile 'junit:junit:4.12'
+    // 如果你要使用Mockito 用于 Android instrumentation tests，那么需要你添加以下三条依赖库
     androidTestCompile 'org.mockito:mockito-core:2.7.10'
+    androidTestCompile "com.google.dexmaker:dexmaker:1.2"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:1.2"
 
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
     compile "com.google.dagger:dagger:$rootProject.ext.dagger"
-    apt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
 }
