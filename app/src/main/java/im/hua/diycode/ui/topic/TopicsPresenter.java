@@ -1,24 +1,24 @@
 package im.hua.diycode.ui.topic;
 
-import java.net.UnknownHostException;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import im.hua.diycode.data.repository.ITopicsRepository;
 import im.hua.diycode.data.MyException;
 import im.hua.diycode.data.entity.OkEntity;
 import im.hua.diycode.data.entity.TopicEntity;
+import im.hua.diycode.data.repository.ITopicsRepository;
+import im.hua.diycode.data.util.CommonErrorSubscriber;
 import im.hua.mvp.framework.BackgroundableSubscriber;
+import im.hua.mvp.framework.IMVPAuthView;
 import im.hua.mvp.framework.IMVPView;
-import im.hua.mvp.framework.MVPListPresenter;
-import rx.Subscriber;
+import im.hua.mvp.framework.MVPListAuthPresenter;
 
 /**
  * Created by hua on 2016/11/17.
  */
 
-public class TopicsPresenter extends MVPListPresenter<ITopicsView, TopicEntity> {
+public class TopicsPresenter extends MVPListAuthPresenter<ITopicsView, TopicEntity> {
 
     private ITopicsRepository mTopicsRepository;
 
@@ -28,23 +28,11 @@ public class TopicsPresenter extends MVPListPresenter<ITopicsView, TopicEntity> 
     }
 
     public void getTopics(final int offset) {
-        if (!isLoadingMore(offset)) {
-            getView().showLoadingView("");
-        }
         addSubscription(this.mTopicsRepository.getTopics(null, null, offset, getPageSize())
-                .subscribe(new Subscriber<List<TopicEntity>>() {
+                .subscribe(new CommonErrorSubscriber<List<TopicEntity>>() {
                     @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        getView().hideLoadingView("");
-                        if (e instanceof UnknownHostException) {
-                            getView().showErrorMessage("请检查你的网络后重试！");
-                        } else {
-                            getView().showErrorMessage(e.getMessage());
-                        }
+                    public IMVPAuthView getMVPAuthView() {
+                        return getView();
                     }
 
                     @Override

@@ -4,7 +4,7 @@ apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.3"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         vectorDrawables.useSupportLibrary true
         applicationId "im.hua.diycode"
@@ -15,7 +15,7 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
-                    "BUG_HD_SDK_GENERAL_KEY":"927395776181ce6f28b71f9a1f48611f"
+                    BUG_HD_SDK_GENERAL_KEY:"927395776181ce6f28b71f9a1f48611f"
         ]
     }
     buildTypes {
@@ -59,4 +59,5 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    compile 'com.google.android:flexbox:0.2.5'
 }
