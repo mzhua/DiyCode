@@ -2,17 +2,11 @@
 
 ## 先上图：
 
-![Login](/art/login.jpg)
+<img src="/art/login.jpg" width="250px"/>   <img src="/art/topics.jpg" width="250px"/>   <img src="/art/topic_detail.jpg" width="250px"/>
 
-![Topic](/art/topics.jpg)
 
-![Topic Detail](/art/topic_detail.jpg)
+<img src="/art/topic_comment.jpg" width="250px"/>   <img src="/art/news.jpg" width="250px"/>    <img src="/art/sites.jpg" width="250px"/>
 
-![Topic Comment](/art/topic_comment.jpg)
-
-![News](/art/news.jpg)
-
-![Sites](/art/sites.jpg)
 
 **首先感谢diycode开放接口，具体地址：[diycode](https://www.diycode.cc/)**
 
