@@ -14,7 +14,7 @@ import im.hua.mvp.framework.MVPListAuthPresenter;
  * Created by hua on 2017/1/8.
  */
 
-public class SitesPresenter extends MVPListAuthPresenter<ISitesView,SiteEntity> {
+public class SitesPresenter extends MVPListAuthPresenter<ISitesView, SiteEntity> {
     private ISitesRepository mRepository;
 
     @Inject
@@ -23,7 +23,7 @@ public class SitesPresenter extends MVPListAuthPresenter<ISitesView,SiteEntity> 
     }
 
     public void getSiteList() {
-        mRepository.getSiteList()
+        addSubscription(mRepository.getSiteList()
                 .subscribe(new CommonErrorSubscriber<List<SiteEntity>>() {
                     @Override
                     public IMVPAuthView getMVPAuthView() {
@@ -34,6 +34,6 @@ public class SitesPresenter extends MVPListAuthPresenter<ISitesView,SiteEntity> 
                     public void onNext(List<SiteEntity> siteEntities) {
                         getView().showDatas(siteEntities);
                     }
-                });
+                }));
     }
 }

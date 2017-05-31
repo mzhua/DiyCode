@@ -2,6 +2,8 @@ package im.hua.diycode.data.util;
 
 import android.support.annotation.NonNull;
 
+import org.json.JSONObject;
+
 import im.hua.diycode.data.MyException;
 import retrofit2.Response;
 import rx.Observable;

@@ -17,7 +17,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.hua.diycode.Constants;
 import im.hua.diycode.R;
-import im.hua.diycode.databinding.TopicReplyListItemBinding;
 import im.hua.diycode.data.entity.TopicReplyEntity;
 import im.hua.diycode.util.ImageViewLoader;
 import im.hua.diycode.util.ShowTimeFormatter;
@@ -50,10 +49,27 @@ public class TopicReplyRVAdapter extends SimpleRVAdapter<TopicReplyEntity, Topic
     }
 
     @Override
-    public void bindView(final ItemViewHolder holder, TopicReplyEntity data, int position) {
-        holder.mItemBinding.setReply(data);
-        holder.mItemBinding.setHandler(mTopicReplyActivity);
+    public void bindView(final ItemViewHolder holder, final TopicReplyEntity data, int position) {
         holder.mTopicReplyTime.setText(ShowTimeFormatter.getFormatTime(data.getUpdated_at(), ""));
+        holder.mTopicReplyUserName.setText(data.getUser().getName());
+        holder.mTopicReplyFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTopicReplyActivity.onFavClick(v,data);
+            }
+        });
+        holder.mTopicReplyPraise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTopicReplyActivity.onPraiseClick(v,data);
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTopicReplyActivity.onItemClick(v,data);
+            }
+        });
         holder.mTopicReplyTitle.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -81,7 +97,6 @@ public class TopicReplyRVAdapter extends SimpleRVAdapter<TopicReplyEntity, Topic
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
-        TopicReplyListItemBinding mItemBinding;
 
         @BindView(R.id.topic_reply_user_header)
         ImageView mTopicReplyUserHeader;
@@ -100,7 +115,6 @@ public class TopicReplyRVAdapter extends SimpleRVAdapter<TopicReplyEntity, Topic
 
         public ItemViewHolder(View itemView) {
             super(itemView);
-            mItemBinding = TopicReplyListItemBinding.bind(itemView);
             ButterKnife.bind(this, itemView);
         }
     }

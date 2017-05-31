@@ -2,8 +2,8 @@ package im.hua.diycode.ui.topic.detail;
 
 import javax.inject.Inject;
 
-import im.hua.diycode.data.repository.ITopicsRepository;
 import im.hua.diycode.data.entity.TopicEntity;
+import im.hua.diycode.data.repository.ITopicsRepository;
 import im.hua.mvp.framework.MVPPresenter;
 import rx.Subscriber;
 
@@ -21,7 +21,7 @@ public class TopicDetailPresenter extends MVPPresenter<TopicDetailView> {
 
     public void getTopicsDetail(String id) {
         getView().showLoadingView("");
-        this.mTopicsRepository.getTopicsDetailById(id)
+        addSubscription(this.mTopicsRepository.getTopicsDetailById(id)
                 .subscribe(new Subscriber<TopicEntity>() {
                     @Override
                     public void onCompleted() {
@@ -37,6 +37,6 @@ public class TopicDetailPresenter extends MVPPresenter<TopicDetailView> {
                         getView().hideLoadingView("");
                         getView().showTopicDetailInfo(topicEntity);
                     }
-                });
+                }));
     }
 }

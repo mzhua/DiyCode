@@ -193,4 +193,9 @@ public class TopicsFragment extends MVPFragment<ITopicsView, TopicsPresenter> im
     public void showErrorMessage(@NonNull String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void forceToReLogin(String message) {
+
+    }
 }

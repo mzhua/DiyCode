@@ -1,10 +1,9 @@
 apply plugin: 'com.android.library'
-apply plugin: 'android-apt'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 15
@@ -30,10 +29,15 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:appcompat-v7:'+rootProject.supportLibraryVersion
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.7.10'
+    // 如果你要使用Mockito 用于 Android instrumentation tests，那么需要你添加以下三条依赖库
+    androidTestCompile 'org.mockito:mockito-core:2.7.10'
+    androidTestCompile "com.google.dexmaker:dexmaker:1.2"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:1.2"
 
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
     compile "com.google.dagger:dagger:$rootProject.ext.dagger"
-    apt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
 }

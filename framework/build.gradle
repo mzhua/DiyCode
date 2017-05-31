@@ -1,11 +1,10 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 15
@@ -42,7 +41,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile "com.google.dagger:dagger:$rootProject.ext.dagger"
-    apt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
     provided 'javax.annotation:jsr250-api:1.0'//Java标注
 
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
