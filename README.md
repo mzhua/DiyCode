@@ -2,7 +2,9 @@
 
 ## 先上图：
 
-![Login](/art/login.jpg  =250x)
+![Login](/art/login.jpg)
+
+<img src="/art/login.jpg" width="250px"/>
 
 ![Topic](/art/topics.jpg  =250x)
 
